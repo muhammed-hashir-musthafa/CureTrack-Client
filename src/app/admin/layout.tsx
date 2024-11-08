@@ -9,12 +9,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const role = "admin";
 
   return (
-    <div className="flex h-screen">
-      <div className="bg-zinc-900">
-        <RoleSidebar role={role} />
-      </div>
-      <div className="flex-1 p-6 overflow-y-auto">
-        <div className="container mx-auto">{children}</div>
+    <div className="flex h-screen overflow-hidden bg-zinc-900">
+      <RoleSidebar role={role} />
+      <div className="flex-1 bg-black overflow-y-auto">
+        <div className="container mx-auto text-white p-4">{children}</div>
       </div>
     </div>
   );
