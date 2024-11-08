@@ -15,7 +15,7 @@ interface DetailsModalProps {
 export default function DetailsModal({ id, isOpen, onClose }: DetailsModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+  // fetch user data using id note: in request collection there is requester id use that in backEnd middleware
   const router = useRouter()
   if (!isOpen) return null;
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import DetailsModal from "@/app/components/DetailsModal";
+import DetailsModal from "./DetailsModal";
 import { revalidatePath } from "next/cache";
 
 export default function ViewButton({ id }: { id: string}) {
