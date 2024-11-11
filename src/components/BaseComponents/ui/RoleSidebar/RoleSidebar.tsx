@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Sidebar from "../Sidebar/Sidebar";
-
+ 
 const RoleSidebar: React.FC<{ role: "admin" | "vendor" | "user" }> = ({
   role,
 }) => {
