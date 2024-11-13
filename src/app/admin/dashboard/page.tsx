@@ -3,10 +3,9 @@ import Dashboard from "@/components/AdminComponents/containers/Dashboard/Dashboa
 
 const page = () => {
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-full w-full text-white">
       <Dashboard />
     </div>
   );
-};
 
 export default page;

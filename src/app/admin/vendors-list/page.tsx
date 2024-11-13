@@ -2,6 +2,7 @@ import React from "react";
 import { Vendors } from "@/interfaces/admin";
 import TableData from "@/components/adminComponents/Table/TableData";
 import TableHeader from "@/components/adminComponents/Table/TableHeader";
+import Button from "@/components/adminComponents/Buttons/ViewButton";
 
 const vendors: Vendors[] = [
   {
@@ -43,8 +44,7 @@ const Page: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-neutral-950 text-neutral-300">
-                  <th className="px-6 py-5 text-xs font-medium text-left">Vendor</th>
-                  
+                  <TableHeader label="Vendor" />
                   <TableHeader label="Vendor Type" />
                   <TableHeader label="Place" />
                   <TableHeader label="Contact" />
@@ -83,7 +83,9 @@ const Page: React.FC = () => {
                       </div>
                     </TableData>
                     <TableData className="text-center">
-                      <button className="text-emerald-500 font-semibold">View</button>
+                      <Button
+                        label="View"
+                      />
                     </TableData>
                   </tr>
                 ))}
