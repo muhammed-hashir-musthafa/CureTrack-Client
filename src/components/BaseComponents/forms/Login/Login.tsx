@@ -4,9 +4,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { LoginFormValues } from "@/interfaces/admin";
-import toast from "react-hot-toast";
-import api from "@/lib/axiosIntercepter";
-
+  
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
