@@ -24,10 +24,11 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+ }
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px #1f2937 inset !important;
   box-shadow: 0 0 0px 1000px #1f2937 inset !important; 
   -webkit-text-fill-color: #fff !important; 
-}
+ 
+ }
