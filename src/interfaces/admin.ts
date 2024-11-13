@@ -33,3 +33,20 @@ export interface Vendors {
     icon: string | ReactNode;
   };
 }
+export interface SignUpFormValues {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+export interface OtpValue {
+  otp: string;
+  email: string;  
+}

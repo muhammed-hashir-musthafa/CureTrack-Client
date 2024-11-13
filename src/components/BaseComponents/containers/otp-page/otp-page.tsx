@@ -1,9 +1,19 @@
 "use client";
 
+import { otpVerification } from "@/api/authApi/authApi";
+import { OtpValue } from "@/interfaces/admin";
 import React, { useState, useRef, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const OtpPage: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+
+  const email = searchParams.get("email");
+
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
   const focusNext = (index: number) => {
@@ -74,9 +84,35 @@ const OtpPage: React.FC = () => {
     }
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (otp.every((digit) => digit !== "")) {
-      setOtp(Array(6).fill(""));
+      try {
+        const newOtp = otp.join("");
+        const otpData: OtpValue = { otp: newOtp, email: email as string };
+        await otpVerification(otpData);
+        console.log("Submitting values:", email);
+        toast.success("OTP verified successfully. Admin registered");
+        router.push("/admin");
+        setOtp(Array(6).fill(""));
+      } catch (error: any) {
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 400) {
+            toast.error("OTP and Email Required");
+          } else if (status === 403) {
+            toast.error("Invalid or expired OTP");
+            router.back()
+          } else if (status === 404) {
+            toast.error("No pending admin found");
+          } else {
+            toast.error("Server error: Please try again later.");
+            router.back();
+          }
+        } else {
+          toast.error("An unexpected error occurred. Please try again.");
+          router.back();
+        }
+      }
     }
   };
 
