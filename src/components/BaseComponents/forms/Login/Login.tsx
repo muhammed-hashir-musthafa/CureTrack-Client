@@ -4,7 +4,12 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { LoginFormValues } from "@/interfaces/admin";
-  
+
+import { login } from "@/api/authApi/authApi";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import InputField from "../../ui/inputField/inputField";
+
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
@@ -25,6 +30,7 @@ const validationSchema = Yup.object({
 });
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
@@ -32,11 +38,37 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (
     values: LoginFormValues,
-    { setSubmitting, setErrors, resetForm }: FormikHelpers<LoginFormValues>
+
+    { setSubmitting, setStatus, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     try {
+      await login(values);
       console.log("Submitting values:", values);
-    } catch (error) {}
+      resetForm();
+      toast.success("Admin login successfully");
+      router.push("/admin");
+    } catch (error: any) {
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 400) {
+          setStatus(data.message);
+        } else if (status === 402) {
+          toast.error("No admin found. Please create an account");
+          resetForm();
+          router.push("/admin-signup");
+        } else if (status === 403) {
+          toast.error("Invalid username/password");
+          resetForm();
+        } else {
+          toast.error("Server error: Please try again later.");
+        }
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
   return (
     <div className="w-full mx-auto">
@@ -45,49 +77,24 @@ const LoginForm: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ isSubmitting }) => (
           <Form className="space-y-5 text-start">
-            <div className="relative">
-              <label htmlFor="email" className="text-gray-500 text-sm">
-                Email
-              </label>
-              <div className="flex items-center bg-gray-800 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaEnvelope className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="password" className="text-gray-500 text-sm">
-                Password
-              </label>
-              <div className="flex items-center bg-gray-800 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaLock className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
+            <InputField
+              name="email"
+              icon={FaEnvelope}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Email"
+              placeholder="Enter Email"
+              type="text"
+            />
+            <InputField
+              name="password"
+              icon={FaLock}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Password"
+              placeholder="Enter Password"
+              type="password"
+            />
 
             <button
               type="submit"

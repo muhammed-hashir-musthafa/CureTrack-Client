@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import BaseLogo from "@/components/baseComponents/ui/baseLogo/baseLogo";
 
 const OtpPage = dynamic(
-  () => import("@/components/containers/otp-page/otp-page"),
+  () => import("@/components/baseComponents/containers/otp-page/otp-page"),
   { ssr: false }
 );
 

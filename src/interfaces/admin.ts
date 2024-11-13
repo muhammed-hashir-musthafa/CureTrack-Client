@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, ReactNode } from "react";
 
 //Sidebar Interfaces
 export interface LinkItem {
@@ -16,6 +16,23 @@ export interface NavLinkProps {
   el: LinkItem;
 }
 
+export interface Vendors {
+  vendor: {
+    name: string;
+    initials: string;
+    bgColor: string;
+    place: string;
+    vendorType: string;
+    contact: string;
+  };
+  date: string;
+  status: {
+    text: string;
+    color: string;
+    bgColor: string;
+    icon: string | ReactNode;
+  };
+}
 export interface SignUpFormValues {
   firstName: string;
   lastName: string;
@@ -27,4 +44,9 @@ export interface SignUpFormValues {
 export interface LoginFormValues {
   email: string;
   password: string;
+}
+
+export interface OtpValue {
+  otp: string;
+  email: string;  
 }

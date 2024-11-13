@@ -1,13 +1,13 @@
 "use client";
-
 import React from "react";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaPhone } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { SignUpFormValues } from "@/interfaces/admin";
 import { signupAdmin } from "@/api/authApi/authApi";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import InputField from "@/components/baseComponents/ui/inputField/inputField";
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
     .required("Last Name is required"),
   phoneNumber: Yup.number().required("Phone Number is required"),
   email: Yup.string()
-    .email("Invalid email address")
+    .email("Invalid Email Format")
     .required("Email is required")
     .matches(
       /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
@@ -36,7 +36,8 @@ const validationSchema = Yup.object({
 });
 
 const SignupForm: React.FC = () => {
-  const route = useRouter();
+  const router = useRouter();
+
   const initialValues: SignUpFormValues = {
     firstName: "",
     lastName: "",
@@ -55,14 +56,16 @@ const SignupForm: React.FC = () => {
       console.log("Submitting values:", values);
       resetForm();
       toast.success("Please verify your email with the OTP sent");
-      route.push('/otp-verification')
+      router.push(
+        `/otp-verification?email=${encodeURIComponent(values.email)}`
+      );
     } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
 
         if (status === 400) {
           setStatus(data.message);
-        } else if (status === 409 && data.message === "email already exists!") {
+        } else if (status === 409) {
           toast.error(
             "Email already exists. Please use a different email address."
           );
@@ -86,110 +89,46 @@ const SignupForm: React.FC = () => {
       >
         {({ errors, touched }) => (
           <Form className="space-y-5 text-start">
-            <div className="relative">
-              <label htmlFor="firstName" className="text-gray-500 text-sm">
-                First Name
-              </label>
-              <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaUser className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  placeholder="First Name"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="firstName"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="lastName" className="text-gray-500 text-sm">
-                Last Name
-              </label>
-              <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaUser className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  placeholder="Last Name"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="lastName"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="email" className="text-gray-500 text-sm">
-                Email
-              </label>
-              <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaEnvelope className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="phoneNumber" className="text-gray-500 text-sm">
-                Phone Number
-              </label>
-              <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaEnvelope className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="text"
-                  placeholder="phoneNumber"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="phoneNumber"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="password" className="text-gray-500 text-sm">
-                Password
-              </label>
-              <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaLock className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
+            <InputField
+              name="firstName"
+              icon={FaUser}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="First Name"
+              placeholder="Enter First Name"
+              type="text"
+            />
+            <InputField
+              name="lastName"
+              icon={FaUser}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Last Name"
+              placeholder="Enter Last Name"
+              type="text"
+            />
+            <InputField
+              name="email"
+              icon={FaEnvelope}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Email"
+              placeholder="Enter Email"
+              type="text"
+            />
+            <InputField
+              name="phoneNumber"
+              icon={FaPhone}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Phone Number"
+              placeholder="Enter Phone Number"
+              type="text"
+            />
+            <InputField
+              name="password"
+              icon={FaLock}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Password"
+              placeholder="Enter Password"
+              type="password"
+            />
 
             <button
               type="submit"
