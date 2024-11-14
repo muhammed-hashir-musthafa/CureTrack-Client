@@ -1,12 +1,12 @@
 import React from "react";
 import RoleSidebar from "@/components/BaseComponents/ui/RoleSidebar/RoleSidebar";
 
-interface AdminLayoutProps {
+interface DoctorProps {
   children: React.ReactNode;
 }
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const role = "admin";
+const Doctor: React.FC<DoctorProps> = ({ children }) => {
+  const role = "vendor";
 
   return (
     <div className="flex h-screen overflow-hidden bg-zinc-900" id="portalRoot">
@@ -18,4 +18,4 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   );
 };
 
-export default AdminLayout;
+export default Doctor;
