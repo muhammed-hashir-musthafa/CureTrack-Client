@@ -1,4 +1,4 @@
-import RequestCard from '@/components/adminComponents/approval-page/RequestCard';
+import RequestCard from '../../../components/adminComponents/approval-page/RequestCard';
 import { Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

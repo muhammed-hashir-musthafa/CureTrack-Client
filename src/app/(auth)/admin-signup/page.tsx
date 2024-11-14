@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import signupBg from "../../../../public/images/signupBg.png";
 import SignupForm from "@/components/adminComponents/forms/SignupForm/SignupForm";
-import BaseLogo from "@/components/baseComponents/ui/baseLogo/baseLogo";
+import BaseLogo from "@/components/\BaseComponents/ui/baseLogo/baseLogo";
 
 const AdminSignupPage = () => {
   return (
