@@ -1,3 +1,4 @@
+"use client"
 import RequestCard from '@/app/components/RequestCard';
 import { Fragment } from 'react';
 import Link from 'next/link';

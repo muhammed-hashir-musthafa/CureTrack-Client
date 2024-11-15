@@ -1,7 +1,7 @@
 import React from "react";
 import { Vendors } from "@/interfaces/admin";
-import TableData from "@/components/adminComponents/Table/TableData";
-import TableHeader from "@/components/adminComponents/Table/TableHeader";
+import TableData from "@/components/BaseComponents/ui/Table/TableData";
+import TableHeader from "@/components/BaseComponents/ui/Table/TableHeader";
 
 const vendors: Vendors[] = [
   {
@@ -27,7 +27,11 @@ const vendors: Vendors[] = [
           stroke="currentColor"
           strokeWidth={2}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5 13l4 4L19 7"
+          />
         </svg>
       ),
     },
@@ -43,8 +47,10 @@ const Page: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-neutral-950 text-neutral-300">
-                  <th className="px-6 py-5 text-xs font-medium text-left">Vendor</th>
-                  
+                  <th className="px-6 py-5 text-xs font-medium text-left">
+                    Vendor
+                  </th>
+
                   <TableHeader label="Vendor Type" />
                   <TableHeader label="Place" />
                   <TableHeader label="Contact" />
@@ -54,8 +60,11 @@ const Page: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-              {vendors.map((vendor, index) => (
-                  <tr key={index} className={index % 2 === 1 ? "bg-zinc-900" : ""}>
+                {vendors.map((vendor, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 1 ? "bg-zinc-900" : ""}
+                  >
                     <TableData>
                       <div className="flex gap-3 items-center">
                         <div
@@ -83,7 +92,9 @@ const Page: React.FC = () => {
                       </div>
                     </TableData>
                     <TableData className="text-center">
-                      <button className="text-emerald-500 font-semibold">View</button>
+                      <button className="text-emerald-500 font-semibold">
+                        View
+                      </button>
                     </TableData>
                   </tr>
                 ))}
