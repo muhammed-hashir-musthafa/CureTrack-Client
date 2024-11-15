@@ -7,5 +7,5 @@ const page = () => {
       <Dashboard />
     </div>
   );
-
+  }
 export default page;
