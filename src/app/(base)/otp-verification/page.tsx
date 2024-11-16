@@ -8,7 +8,6 @@ const OtpPage = dynamic(
   () => import("@/components/baseComponents/containers/otp-page/otp-page"),
   { ssr: false }
 );
-
 const Otp: React.FC = () => {
   return (
     <div className="relative flex flex-col md:flex-row h-screen">

@@ -8,7 +8,7 @@ import Image from "next/image";
 import LogoCureTrack from "../../../../../public/logos/Logo-CureTracK.png";
 import { SidebarProps, NavLinkProps } from "@/interfaces/admin";
 import { linksByRole } from "./SidebarLinks";
-
+ 
 const Sidebar: React.FC<SidebarProps> = ({ role, onLinkClick }) => {
   const pathname = usePathname();
   const path = pathname?.split("/")[1] || "";

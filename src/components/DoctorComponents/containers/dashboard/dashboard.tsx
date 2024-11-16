@@ -75,7 +75,7 @@ const Dashboard = () => {
     <div className="bg-black text-white p-8 flex h-full w-full flex-col">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-4xl font-bold">Welcome Back, Admin</h1>
+          <h1 className="text-4xl font-bold">Welcome Back, DoctorName</h1>
           <p className="text-lg text-gray-400">
             Here's an overview of your platform.
           </p>
@@ -87,15 +87,12 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
-        <StatCard icon={MdStore} count={94} label="Total Vendors" />
-        <StatCard icon={MdMedicalServices} count={32} label="Total Doctors" />
-        <StatCard icon={MdPeople} count={56} label="Total Users" />
+        <StatCard icon={MdStore} count={94} label="Total Completed Appointments" />
+        <StatCard icon={MdMedicalServices} count={32} label="Total Scheduled Appointments" />
+        <StatCard icon={MdPeople} count={56} label="Total Cancelled Appointments" />
       </div>
 
-      {/* Revenue Graph */}
-      <div className="mb-8">
-        <RevenueGraph />
-      </div>
+    
 
       {/* Recent Activity Feed */}
       <div className="bg-gray-800 p-6 rounded-md shadow-lg mb-8">
