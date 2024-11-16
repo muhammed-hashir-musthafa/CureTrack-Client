@@ -154,7 +154,7 @@ const Dashboard = () => {
                 key={index}
                 className={`hover:bg-gray-700 ${
                   index % 2 === 0 ? "bg-gray-800" : "bg-gray-900"
-                }`}
+                }`} 
               >
                 <td className="p-4">{vendor.category}</td>
                 <td className="p-4">{vendor.name}</td>
