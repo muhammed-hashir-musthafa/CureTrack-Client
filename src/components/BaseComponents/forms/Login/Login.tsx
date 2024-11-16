@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Formik, Form,  FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { LoginFormValues } from "@/interfaces/admin";
 import { login } from "@/api/authApi/authApi";
@@ -9,8 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import InputField from "../../ui/inputField/inputField";
 
-
- const validationSchema = Yup.object({
+const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required")

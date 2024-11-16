@@ -23,4 +23,9 @@ export const linksByRole: Record<string, LinkItem[]> = {
     { label: "Health Data", link: "health-data", icon: <FiFileText /> },
     { label: "Appointments", link: "appointments", icon: <HiOutlineCheckCircle /> },
   ],
+  doctor: [
+    { label: "Dashboard", link: "dashboard", icon: <HiOutlineCheckCircle /> },
+    { label: "All Appointments", link: "appointments", icon: <HiOutlineCheckCircle /> },
+    { label: "Patients", link: "patientss", icon: <FiFileText /> },
+  ],
 };
