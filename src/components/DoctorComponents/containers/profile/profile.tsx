@@ -4,8 +4,9 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
-import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/singleDatePicker";
 import ConsentCheckbox from "@/components/baseComponents/ui/ConsentCheckbox/ConsentCheckbox";
+import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/SingleDatePicker";
+import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
 
 const HomePage: React.FC = () => {
   const initialValues = {
@@ -18,7 +19,7 @@ const HomePage: React.FC = () => {
     primarySpecialization: "",
     secondarySpecialization: "",
     medicalRegistrationNumber: "",
-    medicalSchool: "",
+    medicalUniversity: "",
     yearsOfExperience: "",
     hospitalName: "",
     hospitalAddress: "",
@@ -53,13 +54,13 @@ const HomePage: React.FC = () => {
     medicalRegistrationNumber: Yup.string().required(
       "Medical Registration Number is required"
     ),
-    medicalSchool: Yup.string().notRequired(),
+    medicalUniversity: Yup.string().required("Medical University is required"),
     yearsOfExperience: Yup.number().required(
       "Years of Experience are required"
     ),
-    hospitalName: Yup.string().required("Hospital/Clinic Name is required"),
+    hospitalName: Yup.string().required("Hospital Name is required"),
     hospitalAddress: Yup.string().required(
-      "Hospital/Clinic Address is required"
+      "Hospital Address is required"
     ),
     consultationFees: Yup.number().optional(),
     languagesSpoken: Yup.string().notRequired(),
@@ -77,6 +78,12 @@ const HomePage: React.FC = () => {
     dateOfBirth: Yup.date().required("Date of birth is required"),
   });
 
+  const genderOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Other", label: "Other" },
+  ];
+
   const handleSubmit = (
     values: typeof initialValues,
     { setSubmitting, setStatus, resetForm }: FormikHelpers<typeof initialValues>
@@ -87,9 +94,9 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      <main className="flex-1 p-8 mx-auto max-w-6xl bg-gray-900 rounded-xl shadow-lg border-gray-700 border">
-        <h1 className="text-3xl font-bold mb-4 text-center">Welcome 👋</h1>
-        <p className="text-center mb-8 text-gray-400">
+      <main className="my-10 pb-14 flex-1 p-8 mx-auto max-w-6xl bg-gray-900 rounded-xl shadow-lg border-gray-700 border">
+        <h1 className="text-3xl font-bold mb-4 ">Welcome (Doctor Name)👋</h1>
+        <p className=" mb-8 text-gray-400">
           Let's know more about yourself
         </p>
 
@@ -148,23 +155,11 @@ const HomePage: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block mb-1 text-gray-500 text-sm">
-                      Gender
-                    </label>
-                    <Field
+                    <DropdownField
                       name="gender"
-                      as="select"
-                      className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="">Select</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </Field>
-                    <ErrorMessage
-                      name="gender"
-                      component="div"
-                      className="text-red-500 text-sm"
+                      label="Gender"
+                      options={genderOptions}
+                      placeholder="Select Gender"
                     />
                   </div>
                 </div>
@@ -202,7 +197,7 @@ const HomePage: React.FC = () => {
                   </div>
                   <div>
                     <InputField
-                      name="medicalSchool"
+                      name="medicalUniversity"
                       type="text"
                       label="Medical University"
                       placeholder="Medical University"
@@ -228,7 +223,7 @@ const HomePage: React.FC = () => {
                     <InputField
                       name="hospitalName"
                       type="text"
-                      label="Hospital/Clinic Name"
+                      label="Hospital Name"
                       placeholder="e.g., XYZ Hospital"
                     />
                   </div>
@@ -236,8 +231,8 @@ const HomePage: React.FC = () => {
                     <InputField
                       name="hospitalAddress"
                       type="text"
-                      label="Hospital/Clinic Address"
-                      placeholder="e.g., 123 Main Street"
+                      label="Hospital Address"
+                      placeholder="Hospital Address"
                     />
                   </div>
                   <div>
@@ -245,7 +240,7 @@ const HomePage: React.FC = () => {
                       name="consultationFees"
                       type="text"
                       label="Consultation Fees (Optional)"
-                      placeholder="e.g., 100"
+                      placeholder="Consultation Fees"
                     />
                   </div>
                 </div>
@@ -254,7 +249,7 @@ const HomePage: React.FC = () => {
               <section>
                 <h2 className="text-xl font-semibold mb-4">Uploads</h2>
                 <div className="grid grid-cols-1 gap-6">
-                  <h2 className="text-xl font-semibold mt-4">
+                  <h2 className="text-base font-semibold text-gray-300 mt-2">
                     Upload Certificate Document
                   </h2>
                   <FileInput
@@ -263,7 +258,7 @@ const HomePage: React.FC = () => {
                     placeholder="Select a file"
                     setFieldValue={setFieldValue}
                   />
-                  <h2 className="text-xl font-semibold mt-4">
+                  <h2 className="text-base font-semibold text-gray-300 mt-2">
                     Upload Medical Registration Certificate
                   </h2>
                   <FileInput
@@ -272,7 +267,7 @@ const HomePage: React.FC = () => {
                     placeholder="Select a file"
                     setFieldValue={setFieldValue}
                   />
-                  <h2 className="text-xl font-semibold   mt-4">
+                  <h2 className="text-base font-semibold text-gray-300 mt-2">
                     Upload Profile Photo
                   </h2>
                   <FileInput
