@@ -7,7 +7,8 @@ import { LoginFormValues } from "@/interfaces/admin";
 import { login } from "@/api/authApi/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import InputField from "../../ui/inputField/inputField";
+import InputField from "../../ui/InputField/InputField";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -104,6 +105,15 @@ const LoginForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+      <p className="mt-4 text-center text-sm text-gray-600">
+        New an Admin?{" "}
+        <Link
+          href="/admin-signup"
+          className="text-green-600 font-semibold hover:underline"
+        >
+          Signup
+        </Link>
+      </p>
     </div>
   );
 };

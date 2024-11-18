@@ -3,7 +3,7 @@ import {
   OtpValue,
   SignUpFormValues,
 } from "@/interfaces/admin";
-import axiosInstance from "@/lib/axiosInstance";
+import axiosInstance from "@/lib/axiosInterceptor";
 import { AxiosResponse } from "axios";
 
 export const signupAdmin = async (

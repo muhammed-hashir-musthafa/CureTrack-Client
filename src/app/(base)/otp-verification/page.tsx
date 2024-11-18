@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import OtpBg from "../../../../public/images/loginBg.png";
 import dynamic from "next/dynamic";
-import BaseLogo from "@/components/baseComponents/ui/baseLogo/baseLogo";
+import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
 
 const OtpPage = dynamic(
   () => import("@/components/baseComponents/containers/otp-page/otp-page"),

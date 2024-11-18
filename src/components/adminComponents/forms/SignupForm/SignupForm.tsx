@@ -7,7 +7,8 @@ import { SignUpFormValues } from "@/interfaces/admin";
 import { signupAdmin } from "@/api/authApi/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import InputField from "@/components/baseComponents/ui/inputField/inputField";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -139,6 +140,15 @@ const SignupForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+      <p className="mt-4 text-center text-sm text-gray-600">
+        Already User?{" "}
+        <Link
+          href="/login"
+          className="text-green-600 font-semibold hover:underline"
+        >
+          Login
+        </Link>
+      </p>
     </div>
   );
 };

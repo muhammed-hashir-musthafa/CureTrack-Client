@@ -1,84 +1,76 @@
 "use client";
 import { useState } from "react";
 import { MdStore, MdMedicalServices, MdPeople } from "react-icons/md";
-import RevenueGraph from "@/components/AdminComponents/ui/RevenueGraph/RevenueGraph";
 import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
- 
-const Dashboard = () => {
-  const [vendors, setVendors] = useState([
-    {
-      category: "Hospital",
-      date: "Jan 4, 2022",
-      status: "Pending",
-      name: "Aims",
-      place: "Calicut",
-    },
-    {
-      category: "Lab",
-      date: "Jan 2, 2022",
-      status: "Completed",
-      name: "Al-shifa Lab",
-      place: "Alappuzha",
-    },
-    {
-      category: "Pharmacy",
-      date: "Jan 4, 2022",
-      status: "Cancelled",
-      name: "Nura Medicals",
-      place: "Kannur",
-    },
-    {
-      category: "Clinic",
-      date: "Jan 8, 2022",
-      status: "Completed",
-      name: "Bridgeon Clinic",
-      place: "Cochin",
-    },
-    {
-      category: "Hospital",
-      date: "Jan 6, 2022",
-      status: "Pending",
-      name: "Aster Mims",
-      place: "Kannur",
-    },
-  ]);
 
-  const recentActivities = [
+const Dashboard = () => {
+  const [recentActivities, setRecentActivities] = useState([
     {
-      type: "vendor",
-      message: "Aims Hospital registered as a new vendor.",
+      type: "consultation",
+      message: "Completed a normal consultation with patient John Doe.",
       time: "5 mins ago",
     },
     {
-      type: "user",
-      message: "User 'John Doe' created an account.",
-      time: "10 mins ago",
-    },
-    {
-      type: "order",
-      message: "Order #12345 marked as Completed.",
+      type: "consultation",
+      message: "Scheduled a video consultation with patient Jane Smith.",
       time: "15 mins ago",
     },
     {
-      type: "vendor",
-      message: "Bridgeon Clinic status updated to Completed.",
+      type: "consultation",
+      message: "Completed an emergency consultation with patient Alex Brown.",
       time: "20 mins ago",
     },
     {
-      type: "user",
-      message: "User 'Jane Smith' updated profile.",
+      type: "consultation",
+      message: "Cancelled a follow-up consultation with patient Mary Johnson.",
       time: "30 mins ago",
     },
-  ];
+    {
+      type: "prescription",
+      message: "Prescribed medication for patient Sarah Lee.",
+      time: "45 mins ago",
+    },
+    {
+      type: "lab",
+      message: "Reviewed lab results for patient David Wright.",
+      time: "1 hour ago",
+    },
+    {
+      type: "follow-up",
+      message: "Scheduled a follow-up consultation with patient Emma Green.",
+      time: "2 hours ago",
+    },
+    {
+      type: "consultation",
+      message: "Completed a consultation for patient Chris Roberts.",
+      time: "3 hours ago",
+    },
+  ]);
+
+  const [appointments, setAppointments] = useState([
+    {
+      type: "completed",
+      message: "Completed consultation with patient Alice Brown.",
+      time: "10 mins ago",
+    },
+    {
+      type: "scheduled",
+      message: "Scheduled a consultation with patient Bob Miller.",
+      time: "1 hour ago",
+    },
+    {
+      type: "cancelled",
+      message: "Cancelled consultation with patient Charlie Green.",
+      time: "2 hours ago",
+    },
+  ]);
 
   return (
     <div className="bg-black text-white p-8 flex h-full w-full flex-col">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-4xl font-bold">Welcome Back, DoctorName</h1>
-          <p className="text-lg text-gray-400">
-            Here's an overview of your platform.
-          </p>
+          <h1 className="text-4xl font-bold">Welcome Back, Dr. Name</h1>
+          <p className="text-lg text-gray-400">Here's an overview of your platform.</p>
         </div>
         <button className="bg-green-600 text-white px-4 py-2 rounded-md shadow-md">
           Create Report
@@ -87,12 +79,10 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
-        <StatCard icon={MdStore} count={94} label="Total Completed Appointments" />
-        <StatCard icon={MdMedicalServices} count={32} label="Total Scheduled Appointments" />
-        <StatCard icon={MdPeople} count={56} label="Total Cancelled Appointments" />
+        <StatCard icon={MdStore} count={94} label="Total Completed Consultations" />
+        <StatCard icon={MdMedicalServices} count={32} label="Total Scheduled Consultations" />
+        <StatCard icon={MdPeople} count={56} label="Total Cancelled Consultations" />
       </div>
-
-    
 
       {/* Recent Activity Feed */}
       <div className="bg-gray-800 p-6 rounded-md shadow-lg mb-8">
@@ -107,28 +97,26 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Appointments Status */}
       <div className="bg-gray-800 p-6 rounded-md shadow-lg mb-8">
-        <h2 className="text-xl font-semibold mb-4">Recent Status in Vendors</h2>
+        <h2 className="text-xl font-semibold mb-4">Recent Appointments</h2>
         <div className="divide-y divide-gray-700">
-          {vendors.map((vendor, index) => (
+          {appointments.map((appointment, index) => (
             <div key={index} className="flex justify-between py-4">
               <div>
-                <p className="font-medium text-gray-300">{vendor.name}</p>
-                <p className="text-sm text-gray-500">
-                  {vendor.category} - {vendor.place}
-                </p>
+                <p className="font-medium text-gray-300">{appointment.message}</p>
               </div>
               <div>
                 <span
                   className={`px-3 py-1 text-xs rounded-full ${
-                    vendor.status === "Completed"
+                    appointment.type === "completed"
                       ? "bg-green-500 text-white"
-                      : vendor.status === "Pending"
+                      : appointment.type === "scheduled"
                       ? "bg-yellow-500 text-white"
                       : "bg-red-500 text-white"
                   }`}
                 >
-                  {vendor.status}
+                  {appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}
                 </span>
               </div>
             </div>
@@ -136,41 +124,39 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Vendors Table */}
+      {/* Appointment Table */}
       <div className="rounded-lg border border-gray-700 shadow-md">
         <table className="w-full text-left text-gray-300">
           <thead>
             <tr className="bg-gray-900 text-sm font-medium text-green-600">
-              <th className="p-4">Category</th>
-              <th className="p-4">Name</th>
-              <th className="p-4">Reg Date</th>
+              <th className="p-4">Patient</th>
+              <th className="p-4">Consultation Type</th>
+              <th className="p-4">Scheduled Time</th>
               <th className="p-4">Status</th>
-              <th className="p-4">Place</th>
             </tr>
           </thead>
           <tbody className="text-sm divide-y divide-gray-700">
-            {vendors.map((vendor, index) => (
+            {appointments.map((appointment, index) => (
               <tr
                 key={index}
                 className={`hover:bg-gray-700 ${
                   index % 2 === 0 ? "bg-gray-800" : "bg-gray-900"
-                }`} 
+                }`}
               >
-                <td className="p-4">{vendor.category}</td>
-                <td className="p-4">{vendor.name}</td>
-                <td className="p-4">{vendor.date}</td>
+                <td className="p-4">Patient Name</td>
+                <td className="p-4">{appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}</td>
+                <td className="p-4">Scheduled Date</td>
                 <td
                   className={`p-4 ${
-                    vendor.status === "Completed"
+                    appointment.type === "completed"
                       ? "text-green-500"
-                      : vendor.status === "Pending"
+                      : appointment.type === "scheduled"
                       ? "text-yellow-500"
                       : "text-red-500"
                   }`}
                 >
-                  {vendor.status}
+                  {appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}
                 </td>
-                <td className="p-4">{vendor.place}</td>
               </tr>
             ))}
           </tbody>

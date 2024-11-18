@@ -9,7 +9,7 @@ import { InputFieldProps } from '@/interfaces/common';
   name,
   type = 'text',
   placeholder = 'Enter text',
-  icon: Icon = FaPhone,  
+  icon: Icon = null,  
   iconClassName = 'h-4 w-4 text-gray-400 mr-3',
   containerClassName = '',
   inputClassName = '',
@@ -21,8 +21,8 @@ import { InputFieldProps } from '@/interfaces/common';
         {label}
       </label>
       <div className="flex items-center bg-gray-900 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-        <Icon className={iconClassName} />
-        <Field
+      {Icon && <Icon className={iconClassName} />}
+      <Field
           id={name}
           name={name}
           type={type}

@@ -17,3 +17,11 @@ perf: A code change that improves performance
 test: Adding or correcting tests
 chore: Changes to the build process, tools, or other dev-related tasks
 ci: Changes to CI/CD configuration files and scripts
+
+
+
+
+> npm list react-hook-form
+npm install react-hook-form
+rm -rf node_modules package-lock.json
+npm install
