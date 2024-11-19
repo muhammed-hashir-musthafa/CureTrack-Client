@@ -19,11 +19,7 @@ const DropdownField: React.FC<DropdownFieldProps> = ({
   return (
     <div className={className}>
       <label className="block mb-1 text-gray-500 text-sm">{label}</label>
-      <Field
-        name={name}
-        as="select"
-        className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
+      <Field as="select" name={name} className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>

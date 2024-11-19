@@ -44,7 +44,7 @@ const FileInput: React.FC<FileInputProps> = ({
             or drag and drop
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            SVG, PNG or JPG (MAX. 800x400px)
+            SVG, PNG, PDF or JPG (MAX. 800x400px)
           </p>
         </div>
         <input

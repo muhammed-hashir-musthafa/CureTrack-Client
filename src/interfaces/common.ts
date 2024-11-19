@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import { IconType } from "react-icons";
 
 export interface InputFieldProps {
@@ -30,8 +31,15 @@ export interface SingleDatePickerProps {
   [key: string]: any;
 }
 
-
 export interface ConsentCheckboxProps {
   name: string;
   label: string;
+}
+
+export interface NavbarProps {
+  logoSrc?: string | StaticImageData;
+  profileSrc: string | StaticImageData; 
+  profileName: string;
+  showSearch?: boolean;
+  className?: string;
 }

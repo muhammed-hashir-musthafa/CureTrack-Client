@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role, onLinkClick }) => {
       href={el.link}
       onClick={onLinkClick}
       className={clsx(
-        "w-full flex gap-2 px-3 py-2 rounded-full items-center text-white text-base transition-colors duration-200",
+        " w-full flex gap-2 px-3 py-2 rounded-full items-center text-white text-base transition-colors duration-200",
         path === el.link.split("/")[1]
           ? "bg-green-700 text-neutral-100"
           : "hover:bg-[#7de6502d] hover:text-[#43a16a]"

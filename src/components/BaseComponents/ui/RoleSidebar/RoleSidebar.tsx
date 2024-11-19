@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Sidebar from "../Sidebar/Sidebar";
-  
-const RoleSidebar: React.FC<{ role: "admin" | "vendor" | "user"  | "doctor"}> = ({
-  role,
-}) => {
+
+const RoleSidebar: React.FC<{
+  role: "admin" | "vendor" | "user" | "doctor";
+}> = ({ role }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const RoleSidebar: React.FC<{ role: "admin" | "vendor" | "user"  | "doctor"}> = 
       </button>
 
       <div
-        className={`fixed top-0 left-0 h-full lg:w-64 w-full bg-zinc-900 text-white shadow-lg z-40 transition-transform duration-300 md:static ${
+        className={`fixed top-0 left-0 h-full lg:w-64 w-full bg-zinc-900 text-white shadow-lg z-50 transition-transform duration-300 md:static ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

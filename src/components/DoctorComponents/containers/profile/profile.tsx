@@ -1,14 +1,29 @@
 "use client";
-import React from "react";
-import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
+import React, { useState } from "react";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
+import { FaEdit } from "react-icons/fa"; // Importing edit icon
 import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
 import ConsentCheckbox from "@/components/baseComponents/ui/ConsentCheckbox/ConsentCheckbox";
 import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/SingleDatePicker";
 import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
 
-const HomePage: React.FC = () => {
+const ProfilePage: React.FC = () => {
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setProfilePic(reader.result as string);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -17,20 +32,15 @@ const HomePage: React.FC = () => {
     qualification: "",
     gender: "",
     primarySpecialization: "",
-    secondarySpecialization: "",
     medicalRegistrationNumber: "",
+    IMAId: "",
     medicalUniversity: "",
     yearsOfExperience: "",
     hospitalName: "",
     hospitalAddress: "",
     consultationFees: "",
-    languagesSpoken: "",
-    insuranceCompany: "",
-    currentMedications: "",
-    pastMedicalHistory: "",
     document: null,
     medicalRegistrationCertificate: null,
-    profile: null,
     consentTreatment: false,
     consentDisclosure: false,
     privacyPolicy: false,
@@ -50,28 +60,23 @@ const HomePage: React.FC = () => {
     primarySpecialization: Yup.string().required(
       "Primary Specialization is required"
     ),
-    secondarySpecialization: Yup.string().notRequired(),
     medicalRegistrationNumber: Yup.string().required(
       "Medical Registration Number is required"
+    ),
+    IMAId: Yup.string().required(
+      "IMA Id is required"
     ),
     medicalUniversity: Yup.string().required("Medical University is required"),
     yearsOfExperience: Yup.number().required(
       "Years of Experience are required"
     ),
     hospitalName: Yup.string().required("Hospital Name is required"),
-    hospitalAddress: Yup.string().required(
-      "Hospital Address is required"
-    ),
+    hospitalAddress: Yup.string().required("Hospital Address is required"),
     consultationFees: Yup.number().optional(),
-    languagesSpoken: Yup.string().notRequired(),
-    insuranceCompany: Yup.string().required("Insurance company is required"),
-    currentMedications: Yup.string().notRequired(),
-    pastMedicalHistory: Yup.string().notRequired(),
     document: Yup.mixed().required("Upload Document is required"),
     medicalRegistrationCertificate: Yup.mixed().required(
       "Upload Medical Registration Certificate is required"
     ),
-    profile: Yup.mixed().required("Profile photo is required"),
     consentTreatment: Yup.boolean().oneOf([true], "Consent is required"),
     consentDisclosure: Yup.boolean().oneOf([true], "Consent is required"),
     privacyPolicy: Yup.boolean().oneOf([true], "Acknowledgement is required"),
@@ -86,7 +91,7 @@ const HomePage: React.FC = () => {
 
   const handleSubmit = (
     values: typeof initialValues,
-    { setSubmitting, setStatus, resetForm }: FormikHelpers<typeof initialValues>
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
   ) => {
     console.log("Form data:", values);
     resetForm();
@@ -94,11 +99,36 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      <main className="my-10 pb-14 flex-1 p-8 mx-auto max-w-6xl bg-gray-900 rounded-xl shadow-lg border-gray-700 border">
-        <h1 className="text-3xl font-bold mb-4 ">Welcome (Doctor Name)👋</h1>
-        <p className=" mb-8 text-gray-400">
-          Let's know more about yourself
-        </p>
+      <main className="my-6 pb-14 flex-1 p-8 mx-auto max-w-6xl bg-gray-900 rounded-xl shadow-lg border-gray-700 border">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
+          <div>
+            <h1 className="text-3xl font-bold">Welcome, Doctor Name 👋</h1>
+            <p className="text-gray-400">Let's know more about yourself</p>
+          </div>
+          <div className="relative flex-shrink-0">
+            <img
+              src={
+                profilePic ||
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+              }
+              alt="Profile"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-gray-700 object-cover"
+            />
+            <label
+              htmlFor="profilePic"
+              className="absolute bottom-0 right-0 bg-green-700 hover:bg-green-600 text-white p-2 rounded-full cursor-pointer"
+            >
+              <FaEdit />
+            </label>
+            <input
+              type="file"
+              id="profilePic"
+              accept="image/*"
+              className="hidden"
+              onChange={handleProfileChange}
+            />
+          </div>
+        </div>
 
         <Formik
           initialValues={initialValues}
@@ -107,61 +137,48 @@ const HomePage: React.FC = () => {
         >
           {({ setFieldValue }) => (
             <Form className="space-y-8">
-              <section>
+               <section>
                 <h2 className="text-xl font-semibold mb-4">
                   Doctor Information
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <InputField
-                      name="firstName"
-                      type="text"
-                      placeholder="First Name"
-                      label="First Name"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="lastName"
-                      label="Last Name"
-                      type="text"
-                      placeholder="Last Name"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="phoneNumber"
-                      label="Phone Number"
-                      type="text"
-                      placeholder="Phone Number"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="email"
-                      type="email"
-                      label="Email"
-                      placeholder="Email"
-                    />
-                  </div>
-
-                  <div>
-                    <SingleDatePicker
-                      name="dateOfBirth"
-                      label="Date Of Birth"
-                      placeholder="Select Date"
-                      containerClassName="text-white"
-                      inputClassName="text-white"
-                    />
-                  </div>
-                  <div>
-                    <DropdownField
-                      name="gender"
-                      label="Gender"
-                      options={genderOptions}
-                      placeholder="Select Gender"
-                    />
-                  </div>
+                  <InputField
+                    name="firstName"
+                    type="text"
+                    placeholder="First Name"
+                    label="First Name"
+                  />
+                  <InputField
+                    name="lastName"
+                    type="text"
+                    placeholder="Last Name"
+                    label="Last Name"
+                  />
+                  <InputField
+                    name="phoneNumber"
+                    label="Phone Number"
+                    type="text"
+                    placeholder="Phone Number"
+                  />
+                  <InputField
+                    name="email"
+                    type="email"
+                    label="Email"
+                    placeholder="Email"
+                  />
+                  <SingleDatePicker
+                    name="dateOfBirth"
+                    label="Date Of Birth"
+                    placeholder="Select Date"
+                    containerClassName="text-white"
+                    inputClassName="text-white"
+                  />
+                  <DropdownField
+                    name="gender"
+                    label="Gender"
+                    options={genderOptions}
+                    placeholder="Select Gender"
+                  />
                 </div>
               </section>
 
@@ -170,47 +187,42 @@ const HomePage: React.FC = () => {
                   Professional Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <InputField
-                      name="qualification"
-                      type="text"
-                      label="Medical Qualification"
-                      placeholder="Qualification"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="primarySpecialization"
-                      type="text"
-                      label="Primary Specialization"
-                      placeholder="Primary Specialization"
-                    />
-                  </div>
-
-                  <div>
-                    <InputField
-                      name="medicalRegistrationNumber"
-                      type="text"
-                      label="Medical Registration Number"
-                      placeholder="Medical Registration Number"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="medicalUniversity"
-                      type="text"
-                      label="Medical University"
-                      placeholder="Medical University"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="yearsOfExperience"
-                      type="text"
-                      label="Years of Experience"
-                      placeholder="Total Experience"
-                    />
-                  </div>
+                  <InputField
+                    name="qualification"
+                    type="text"
+                    label="Medical Qualification"
+                    placeholder="Qualification"
+                  />
+                  <InputField
+                    name="primarySpecialization"
+                    type="text"
+                    label="Primary Specialization"
+                    placeholder="Primary Specialization"
+                  />
+                  <InputField
+                    name="medicalRegistrationNumber"
+                    type="text"
+                    label="Medical Registration Number"
+                    placeholder="Medical Registration Number"
+                  />
+                   <InputField
+                    name="IMAId"
+                    type="text"
+                    label="IMA Id"
+                    placeholder="IMA Id"
+                  />
+                  <InputField
+                    name="medicalUniversity"
+                    type="text"
+                    label="Medical University"
+                    placeholder="Medical University"
+                  />
+                  <InputField
+                    name="yearsOfExperience"
+                    type="text"
+                    label="Years of Experience"
+                    placeholder="Total Experience"
+                  />
                 </div>
               </section>
 
@@ -219,30 +231,24 @@ const HomePage: React.FC = () => {
                   Practice Information
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <InputField
-                      name="hospitalName"
-                      type="text"
-                      label="Hospital Name"
-                      placeholder="e.g., XYZ Hospital"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="hospitalAddress"
-                      type="text"
-                      label="Hospital Address"
-                      placeholder="Hospital Address"
-                    />
-                  </div>
-                  <div>
-                    <InputField
-                      name="consultationFees"
-                      type="text"
-                      label="Consultation Fees (Optional)"
-                      placeholder="Consultation Fees"
-                    />
-                  </div>
+                  <InputField
+                    name="hospitalName"
+                    type="text"
+                    label="Hospital Name"
+                    placeholder="Hospital Name"
+                  />
+                  <InputField
+                    name="hospitalAddress"
+                    type="text"
+                    label="Hospital Address"
+                    placeholder="Hospital Address"
+                  />
+                  <InputField
+                    name="consultationFees"
+                    type="text"
+                    label="Consultation Fees (Optional)"
+                    placeholder="Consultation Fees"
+                  />
                 </div>
               </section>
 
@@ -264,15 +270,6 @@ const HomePage: React.FC = () => {
                   <FileInput
                     name="medicalRegistrationCertificate"
                     label="Upload Medical Registration Certificate"
-                    placeholder="Select a file"
-                    setFieldValue={setFieldValue}
-                  />
-                  <h2 className="text-base font-semibold text-gray-300 mt-2">
-                    Upload Profile Photo
-                  </h2>
-                  <FileInput
-                    name="profile"
-                    label="Upload Profile Photo"
                     placeholder="Select a file"
                     setFieldValue={setFieldValue}
                   />
@@ -315,4 +312,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default ProfilePage;
