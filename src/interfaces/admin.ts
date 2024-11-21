@@ -50,3 +50,12 @@ export interface OtpValue {
   otp: string;
   email: string;  
 }
+
+export interface vendorSignupFormValues {
+  name:string
+  email: string;
+  phoneNumber: string;
+  role:string
+  licenseNumber:string
+  password: string;
+}

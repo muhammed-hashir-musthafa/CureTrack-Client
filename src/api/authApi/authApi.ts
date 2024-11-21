@@ -3,6 +3,7 @@ import {
   OtpValue,
   SignUpFormValues,
 } from "@/interfaces/admin";
+import { LoginResponse } from "@/interfaces/common";
 import axiosInstance from "@/lib/axiosInterceptor";
 import { AxiosResponse } from "axios";
 
@@ -15,8 +16,9 @@ export const signupAdmin = async (
 
 export const login = async (
   credentials: LoginFormValues
-): Promise<AxiosResponse<any>> => {
+): Promise<LoginResponse> => {
   const response = await axiosInstance.post("/login", credentials);
+  console.log(response.data)
   return response.data;
 };
 

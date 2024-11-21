@@ -41,11 +41,22 @@ const LoginForm: React.FC = () => {
     { setSubmitting, setStatus, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      await login(values);
+      const response = await login(values);
       console.log("Submitting values:", values);
       resetForm();
-      toast.success("Admin login successfully");
-      router.push("/admin");
+      const { data, role } = response;
+      if (role === "admin") {
+        toast.success("Admin login successfully");
+        router.push("/admin");
+      } else if (role === "vendor") {
+        toast.success("Vendor login successfully");
+        router.push("/vendor");
+      } else if (role === "doctor") {
+        toast.success("Doctor login successfully");
+        router.push("/doctor");
+      } else {
+        toast.error("Unrecognized role");
+      }
     } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
@@ -53,9 +64,9 @@ const LoginForm: React.FC = () => {
         if (status === 400) {
           setStatus(data.message);
         } else if (status === 402) {
-          toast.error("No admin found. Please create an account");
+          toast.error("No account found. Please create an account");
           resetForm();
-          router.push("/admin-signup");
+          router.back();
         } else if (status === 403) {
           toast.error("Invalid username/password");
           resetForm();
@@ -69,6 +80,7 @@ const LoginForm: React.FC = () => {
       setSubmitting(false);
     }
   };
+
   return (
     <div className="w-full mx-auto">
       <Formik
@@ -106,9 +118,9 @@ const LoginForm: React.FC = () => {
         )}
       </Formik>
       <p className="mt-4 text-center text-sm text-gray-600">
-        New an Admin?{" "}
+        Not a User?{" "}
         <Link
-          href="/admin-signup"
+          href="/signup"
           className="text-green-600 font-semibold hover:underline"
         >
           Signup

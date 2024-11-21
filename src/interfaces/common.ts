@@ -38,8 +38,26 @@ export interface ConsentCheckboxProps {
 
 export interface NavbarProps {
   logoSrc?: string | StaticImageData;
-  profileSrc: string | StaticImageData; 
+  profileSrc: string | StaticImageData;
   profileName: string;
   showSearch?: boolean;
   className?: string;
+}
+
+export interface FileInputProps {
+  label?: string;
+  name: string;
+  placeholder?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  iconClassName?: string;
+  containerClassName?: string;
+  inputClassName?: string;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+  data: any;
+  role: string;
 }

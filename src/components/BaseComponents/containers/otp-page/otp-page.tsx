@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const OtpPage: React.FC = () => {
+const OtpPageClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -101,7 +101,7 @@ const OtpPage: React.FC = () => {
             toast.error("OTP and Email Required");
           } else if (status === 403) {
             toast.error("Invalid or expired OTP");
-            router.back()
+            router.back();
           } else if (status === 404) {
             toast.error("No pending admin found");
           } else {
@@ -156,4 +156,4 @@ const OtpPage: React.FC = () => {
   );
 };
 
-export default OtpPage;
+export default OtpPageClient;

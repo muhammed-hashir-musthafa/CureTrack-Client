@@ -1,17 +1,9 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
 import { FiUploadCloud } from "react-icons/fi";
+import { FileInputProps } from "@/interfaces/common";
 
-interface FileInputProps {
-  label?: string;
-  name: string;
-  placeholder?: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  iconClassName?: string;
-  containerClassName?: string;
-  inputClassName?: string;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
-}
+
 
 const FileInput: React.FC<FileInputProps> = ({
   label = "Upload File",

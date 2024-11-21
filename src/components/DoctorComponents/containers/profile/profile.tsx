@@ -2,12 +2,14 @@
 import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { FaEdit } from "react-icons/fa"; // Importing edit icon
+import { FaEdit } from "react-icons/fa";
 import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
 import ConsentCheckbox from "@/components/baseComponents/ui/ConsentCheckbox/ConsentCheckbox";
 import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/SingleDatePicker";
 import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
+import { DoctorProfileForm } from "@/interfaces/doctor";
+import axiosInstance from "@/lib/axiosInterceptor";
 
 const ProfilePage: React.FC = () => {
   const [profilePic, setProfilePic] = useState<string | null>(null);
@@ -24,7 +26,7 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const initialValues = {
+  const initialValues: DoctorProfileForm = {
     firstName: "",
     lastName: "",
     phoneNumber: "",
@@ -56,22 +58,15 @@ const ProfilePage: React.FC = () => {
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
-    qualification: Yup.string().required("Qualification is required"),
-    primarySpecialization: Yup.string().required(
-      "Primary Specialization is required"
-    ),
-    medicalRegistrationNumber: Yup.string().required(
-      "Medical Registration Number is required"
-    ),
-    IMAId: Yup.string().required(
-      "IMA Id is required"
-    ),
-    medicalUniversity: Yup.string().required("Medical University is required"),
-    yearsOfExperience: Yup.number().required(
-      "Years of Experience are required"
-    ),
-    hospitalName: Yup.string().required("Hospital Name is required"),
-    hospitalAddress: Yup.string().required("Hospital Address is required"),
+    qualification: Yup.string(),
+    primarySpecialization: Yup.string(),
+    medicalRegistrationNumber: Yup.string(),
+    IMAId: Yup.string().required("IMA Id is required"),
+    medicalUniversity: Yup.string(),
+    yearsOfExperience: Yup.number(),
+    hospitalName: Yup.string(),
+    hospitalAddress: Yup.string(),
+    dateOfBirth: Yup.date(),
     consultationFees: Yup.number().optional(),
     document: Yup.mixed().required("Upload Document is required"),
     medicalRegistrationCertificate: Yup.mixed().required(
@@ -80,7 +75,6 @@ const ProfilePage: React.FC = () => {
     consentTreatment: Yup.boolean().oneOf([true], "Consent is required"),
     consentDisclosure: Yup.boolean().oneOf([true], "Consent is required"),
     privacyPolicy: Yup.boolean().oneOf([true], "Acknowledgement is required"),
-    dateOfBirth: Yup.date().required("Date of birth is required"),
   });
 
   const genderOptions = [
@@ -89,12 +83,39 @@ const ProfilePage: React.FC = () => {
     { value: "Other", label: "Other" },
   ];
 
-  const handleSubmit = (
-    values: typeof initialValues,
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
+  const handleSubmit = async (
+    values: DoctorProfileForm,
+    { setSubmitting, resetForm }: FormikHelpers<DoctorProfileForm>
   ) => {
-    console.log("Form data:", values);
-    resetForm();
+    try {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        const value = values[key as keyof DoctorProfileForm];
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, String(value));
+        }
+      });
+
+      const response = await axiosInstance.post("/doctor/profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.data.success) {
+        alert("Profile submitted successfully");
+        resetForm();
+      } else {
+        alert("Error submitting profile");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("An error occurred during submission.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -137,7 +158,7 @@ const ProfilePage: React.FC = () => {
         >
           {({ setFieldValue }) => (
             <Form className="space-y-8">
-               <section>
+              <section>
                 <h2 className="text-xl font-semibold mb-4">
                   Doctor Information
                 </h2>
@@ -205,7 +226,7 @@ const ProfilePage: React.FC = () => {
                     label="Medical Registration Number"
                     placeholder="Medical Registration Number"
                   />
-                   <InputField
+                  <InputField
                     name="IMAId"
                     type="text"
                     label="IMA Id"

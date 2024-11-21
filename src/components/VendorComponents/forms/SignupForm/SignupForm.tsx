@@ -1,23 +1,23 @@
-"use client";
+"use client"
+
 import React from "react";
-import { FaEnvelope, FaLock, FaUser, FaPhone } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaPhone, FaIdCard } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { SignUpFormValues } from "@/interfaces/admin";
-import { signupAdmin } from "@/api/authApi/authApi";
+import { vendorSignupFormValues } from "@/interfaces/admin";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import InputField from "@/components/baseComponents/ui/InputField/InputField";
+import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
-  firstName: Yup.string()
-    .min(3, "First Name must be at least 3 characters")
-    .required("First Name is required"),
-  lastName: Yup.string()
-    .min(3, "Last Name must be at least 3 characters")
-    .required("Last Name is required"),
+  name: Yup.string()
+    .min(3, "Name must be at least 3 characters")
+    .required("Name is required"),
   phoneNumber: Yup.number().required("Phone Number is required"),
+  licenseNumber: Yup.number().required("License Number is required"),
+  role: Yup.string().required("Role is required"),
   email: Yup.string()
     .email("Invalid Email Format")
     .required("Email is required")
@@ -29,37 +29,32 @@ const validationSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .matches(/[a-zA-Z]/, "Password must contain at least one letter")
     .matches(/\d/, "Password must contain at least one number")
-    .matches(
-      /[@$!%*?&]/,
-      "Password must contain at least one special character"
-    )
+    .matches(/[@$!%*?&]/, "Password must contain at least one special character")
     .required("Password is required"),
 });
 
 const SignupForm: React.FC = () => {
   const router = useRouter();
 
-  const initialValues: SignUpFormValues = {
-    firstName: "",
-    lastName: "",
+  const initialValues: vendorSignupFormValues = {
+    name: "",
     phoneNumber: "",
     email: "",
+    licenseNumber: "",
+    role: "",
     password: "",
   };
 
   const handleSubmit = async (
-    values: SignUpFormValues,
-    { setSubmitting, setStatus, resetForm }: FormikHelpers<SignUpFormValues>
+    values: vendorSignupFormValues,
+    { setSubmitting, setStatus, resetForm }: FormikHelpers<vendorSignupFormValues>
   ) => {
     setSubmitting(true);
     try {
-      await signupAdmin(values);
       console.log("Submitting values:", values);
       resetForm();
       toast.success("Please verify your email with the OTP sent");
-      router.push(
-        `/otp-verification?email=${encodeURIComponent(values.email)}`
-      );
+      router.push(`/otp-verification?email=${encodeURIComponent(values.email)}`);
     } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
@@ -67,9 +62,7 @@ const SignupForm: React.FC = () => {
         if (status === 400) {
           setStatus(data.message);
         } else if (status === 409) {
-          toast.error(
-            "Email already exists. Please use a different email address."
-          );
+          toast.error("Email already exists. Please use a different email address.");
         } else {
           toast.error("Server error: Please try again later.");
         }
@@ -81,6 +74,12 @@ const SignupForm: React.FC = () => {
     }
   };
 
+  const roleOptions = [
+    { value: "Hospital", label: "Hospital" },
+    { value: "Pharmacy", label: "Pharmacy" },
+    { value: "Lab", label: "Lab" },
+  ];
+
   return (
     <div className="w-full mx-auto">
       <Formik
@@ -91,19 +90,11 @@ const SignupForm: React.FC = () => {
         {({ errors, touched }) => (
           <Form className="space-y-5 text-start">
             <InputField
-              name="firstName"
+              name="name"
               icon={FaUser}
               iconClassName="h-4 w-4 text-gray-400 mr-3"
-              label="First Name"
-              placeholder="Enter First Name"
-              type="text"
-            />
-            <InputField
-              name="lastName"
-              icon={FaUser}
-              iconClassName="h-4 w-4 text-gray-400 mr-3"
-              label="Last Name"
-              placeholder="Enter Last Name"
+              label="Name"
+              placeholder="Enter Name"
               type="text"
             />
             <InputField
@@ -122,6 +113,20 @@ const SignupForm: React.FC = () => {
               placeholder="Enter Phone Number"
               type="text"
             />
+            <DropdownField
+              name="role"
+              label="Role"
+              options={roleOptions}
+              placeholder="Select Role"
+            />
+            <InputField
+              name="licenseNumber"
+              icon={FaIdCard}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="License Number"
+              placeholder="Enter License Number"
+              type="text"
+            />
             <InputField
               name="password"
               icon={FaLock}
@@ -130,7 +135,6 @@ const SignupForm: React.FC = () => {
               placeholder="Enter Password"
               type="password"
             />
-
             <button
               type="submit"
               className="w-full p-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-800 shadow-md transition duration-300"
@@ -142,10 +146,7 @@ const SignupForm: React.FC = () => {
       </Formik>
       <p className="mt-4 text-center text-sm text-gray-600">
         Already User?{" "}
-        <Link
-          href="/login"
-          className="text-green-600 font-semibold hover:underline"
-        >
+        <Link href="/login" className="text-green-600 font-semibold hover:underline">
           Login
         </Link>
       </p>

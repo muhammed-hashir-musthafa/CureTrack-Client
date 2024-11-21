@@ -1,13 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import OtpBg from "../../../../public/images/loginBg.png";
-import dynamic from "next/dynamic";
-import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
+ import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
+import OtpPageClient from "@/components/baseComponents/containers/otp-page/otp-page";
 
-const OtpPage = dynamic(
-  () => import("@/components/baseComponents/containers/otp-page/otp-page"),
-  { ssr: false }
-);
+ 
 const Otp: React.FC = () => {
   return (
     <div className="relative flex flex-col md:flex-row h-screen">
@@ -42,7 +39,7 @@ const Otp: React.FC = () => {
         <p className="text-gray-400 mb-6">
           Please enter the OTP sent to your registered mobile number.
         </p>
-        <OtpPage />
+        <OtpPageClient />
       </div>
     </div>
   );
