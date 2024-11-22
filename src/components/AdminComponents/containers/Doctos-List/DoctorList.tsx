@@ -1,12 +1,12 @@
 "use client";
 import { useState, ChangeEvent, FC } from "react";
-import { useRouter } from "next/navigation"; // For navigation
+import { useRouter } from "next/navigation";
 import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
 import TableData from "@/components/BaseComponents/ui/Table/TableData";
 import TableHeader from "@/components/BaseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/BaseComponents/ui/SearchBar/SearchBar";
 import ConfirmationModal from "@/components/BaseComponents/ui/Modals/ConfirmationModal";
-import Link from "next/link";
+import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
 
 // Assuming IDoctors interface is imported
 interface IDoctors {
@@ -60,7 +60,6 @@ const dummyDoctorsData = [
     IsActive: false,
   },
 ];
-
 const DoctorsList: FC = () => {
   const [doctors, setDoctors] = useState<IDoctors[]>(dummyDoctorsData);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -73,7 +72,6 @@ const DoctorsList: FC = () => {
   };
 
   const toggleDoctorStatus = (doctorId: string) => {
-    // Toggle the IsActive status of the doctor
     setDoctors((prevDoctors) =>
       prevDoctors.map((doctor) =>
         doctor._id === doctorId
@@ -97,22 +95,52 @@ const DoctorsList: FC = () => {
     setSelectedDoctor(null);
   };
 
-  const filteredDoctors = doctors.filter(
-    (doctor) =>
-      doctor.FullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.Email.toLowerCase().includes(searchTerm.toLowerCase())
+  const [selectedSpecialization, setSelectedSpecialization] =
+    useState<string>("All");
+  const [filterStatus, setFilterStatus] = useState<string>("All");
+
+  const specializations = Array.from(
+    new Set(dummyDoctorsData.flatMap((doctor) => doctor.Specialization))
   );
+
+  const handleSpecializationChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedSpecialization(event.target.value);
+  };
+
+  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setFilterStatus(event.target.value);
+  };
+
+  const filteredDoctors = doctors.filter((doctor) => {
+    const matchesSearch =
+      doctor.FullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.Email.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesSpecialization =
+      selectedSpecialization === "All" ||
+      doctor.Specialization.includes(selectedSpecialization);
+
+    const matchesStatus =
+      filterStatus === "All" ||
+      (filterStatus === "Active" && doctor.IsActive) ||
+      (filterStatus === "Inactive" && !doctor.IsActive);
+
+    return matchesSearch && matchesSpecialization && matchesStatus;
+  });
 
   const confirmToggleStatus = () => {
     if (selectedDoctor) {
-      setDoctors((prevDoctor) =>
-        prevDoctor.map((doctor) =>
+      setDoctors((prevDoctors) =>
+        prevDoctors.map((doctor) =>
           doctor._id === selectedDoctor._id
             ? { ...doctor, IsActive: !doctor.IsActive }
             : doctor
         )
       );
-      closeModal();
+      setShowModal(false);
+      setSelectedDoctor(null);
     }
   };
 
@@ -122,7 +150,30 @@ const DoctorsList: FC = () => {
         Doctors Management
       </h1>
 
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
+      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+        {/* Search Bar on Left */}
+        <div className="flex-grow sm:flex-grow-0">
+          <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
+        </div>
+
+        {/* Filters on Right */}
+        <div className="flex gap-4 items-center">
+          <div className="w-full max-w-xs mx-auto">
+            <Dropdown
+              value={selectedSpecialization}
+              options={["All", ...specializations]}
+              onChange={(option) => setSelectedSpecialization(option.value)}
+            />
+          </div>
+          <div className="w-full max-w-xs mx-auto">
+            <Dropdown
+              value={filterStatus}
+              options={["All", "Active", "Inactive"]}
+              onChange={(option) => setFilterStatus(option.value)}
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-neutral-900 text-sm sm:text-base">
@@ -187,11 +238,11 @@ const DoctorsList: FC = () => {
                     )}
                   </button>
                 </TableData>
-                  <TableData className="text-center">
-                    <button className="text-emerald-500 font-semibold">
-                      View
-                    </button>
-                  </TableData>
+                <TableData className="text-center">
+                  <button className="text-emerald-500 font-semibold">
+                    View
+                  </button>
+                </TableData>
               </tr>
             ))}
           </tbody>
@@ -204,8 +255,7 @@ const DoctorsList: FC = () => {
         onConfirm={confirmToggleStatus}
         message={`Are you sure you want to ${
           selectedDoctor?.IsActive ? "block" : "unblock"
-        } ${selectedDoctor?.FullName}?`}
-        confirmText={selectedDoctor?.IsActive ? "Block" : "Unblock"}
+        } this doctor?`}
       />
     </div>
   );
