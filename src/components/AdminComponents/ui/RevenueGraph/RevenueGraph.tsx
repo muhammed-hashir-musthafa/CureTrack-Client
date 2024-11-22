@@ -9,9 +9,19 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js/auto";
+} from "chart.js";
 
-const RevenueGraph = () => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const RevenueGraph: React.FC = () => {
   const data = {
     labels: [
       "Jan",
@@ -28,7 +38,7 @@ const RevenueGraph = () => {
     ],
     datasets: [
       {
-        label: "Hospital subscription ",
+        label: "Hospital subscription",
         data: [1.5, 3.8, 5.2, 7.9, 10.1, 12.3, 14.5, 5, 20, 9, 6],
         borderColor: "#00B4D8",
         backgroundColor: "#00B4D8",
@@ -53,11 +63,11 @@ const RevenueGraph = () => {
         text: "Revenue graph",
       },
       tooltip: {
-        mode: "index",
+        mode: "index" as const,
         intersect: false,
       },
       legend: {
-        position: "top",
+        position: "top" as const,
       },
     },
     scales: {
@@ -71,7 +81,7 @@ const RevenueGraph = () => {
           display: false,
         },
         ticks: {
-          callback: (value) => `$${value}M`,
+          callback: (value: number | string) => `$${value}M`,
         },
       },
     },

@@ -1,4 +1,3 @@
-// TableData.tsx
 import React from "react";
 
 interface TableDataProps {
