@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -9,13 +10,14 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import InputField from "../../ui/InputField/InputField";
 import Link from "next/link";
+import RadioButton from "../../ui/RadioButton/RadioButton";
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required")
     .matches(
-      /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
+      /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
       "Invalid Email Format"
     ),
   password: Yup.string()
@@ -27,24 +29,29 @@ const validationSchema = Yup.object({
       /[@$!%*?&]/,
       "Password must contain at least one special character"
     ),
+  role: Yup.string()
+    .required("Please select a role")
+    .oneOf(["vendor", "doctor", "user", "admin"], "Invalid role selected"),
 });
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
+
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
+    role: "",
   };
 
   const handleSubmit = async (
     values: LoginFormValues,
-    { setSubmitting, setStatus, resetForm }: FormikHelpers<LoginFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const response = await login(values);
-      console.log("Submitting values:", values);
       resetForm();
-      const { data, role } = response;
+
+      const { role } = response;
       if (role === "admin") {
         toast.success("Admin login successfully");
         router.push("/admin");
@@ -54,6 +61,9 @@ const LoginForm: React.FC = () => {
       } else if (role === "doctor") {
         toast.success("Doctor login successfully");
         router.push("/doctor");
+      } else if (role === "user") {
+        toast.success("User login successfully");
+        router.push("/");
       } else {
         toast.error("Unrecognized role");
       }
@@ -62,19 +72,21 @@ const LoginForm: React.FC = () => {
         const { status, data } = error.response;
 
         if (status === 400) {
-          setStatus(data.message);
+          toast.error(data.message);
         } else if (status === 402) {
-          toast.error("No account found. Please create an account");
+          toast.error("No account found. Please create an account.");
           resetForm();
-          router.back();
+          router.push('/signup');
         } else if (status === 403) {
           toast.error("Invalid username/password");
           resetForm();
         } else {
           toast.error("Server error: Please try again later.");
+          resetForm();
         }
       } else {
         toast.error("An unexpected error occurred. Please try again.");
+        resetForm();
       }
     } finally {
       setSubmitting(false);
@@ -82,13 +94,13 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ values, errors, touched, isSubmitting, setFieldValue }) => (
           <Form className="space-y-5 text-start">
             <InputField
               name="email"
@@ -107,6 +119,45 @@ const LoginForm: React.FC = () => {
               type="password"
             />
 
+            <fieldset className="space-y-3">
+              <legend className="text-gray-500 text-sm">
+                Select an option:
+              </legend>
+              <div className="flex justify-between items-center gap-x-4">
+                <RadioButton
+                  name="role"
+                  value="user"
+                  label="User"
+                  checked={values.role === "user"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="doctor"
+                  label="Doctor"
+                  checked={values.role === "doctor"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="vendor"
+                  label="Vendor"
+                  checked={values.role === "vendor"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="admin"
+                  label="Admin"
+                  checked={values.role === "admin"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+              </div>
+              {errors.role && touched.role && (
+                <p className="text-red-500 text-sm mt-2">{errors.role}</p>
+              )}
+            </fieldset>
+
             <button
               type="submit"
               disabled={isSubmitting}
@@ -117,6 +168,7 @@ const LoginForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+
       <p className="mt-4 text-center text-sm text-gray-600">
         Not a User?{" "}
         <Link

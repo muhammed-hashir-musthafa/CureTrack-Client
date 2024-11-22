@@ -44,18 +44,10 @@ export interface SignUpFormValues {
 export interface LoginFormValues {
   email: string;
   password: string;
+  role: "user" | "doctor" | "vendor" | "admin" | "";
 }
 
 export interface OtpValue {
   otp: string;
-  email: string;  
-}
-
-export interface vendorSignupFormValues {
-  name:string
   email: string;
-  phoneNumber: string;
-  role:string
-  licenseNumber:string
-  password: string;
 }

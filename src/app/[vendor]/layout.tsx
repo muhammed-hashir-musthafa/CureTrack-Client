@@ -5,7 +5,7 @@ interface VendorsLayoutProps {
   children: React.ReactNode;
 }
 
-const AdminLayout: React.FC<VendorsLayoutProps> = ({ children }) => {
+const VendorLayout: React.FC<VendorsLayoutProps> = ({ children }) => {
   const role = "vendor";
 
   return (
@@ -18,4 +18,4 @@ const AdminLayout: React.FC<VendorsLayoutProps> = ({ children }) => {
   );
 };
 
-export default AdminLayout;
+export default VendorLayout;
