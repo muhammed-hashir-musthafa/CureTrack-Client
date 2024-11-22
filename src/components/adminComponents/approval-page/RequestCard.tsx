@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import ViewButton from './ViewButton';
 import Image from 'next/image';
