@@ -1,18 +1,23 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { LoginFormValues } from "@/interfaces/admin";
+import { login } from "@/api/authApi/authApi";
 import toast from "react-hot-toast";
-import api from "@/lib/axiosIntercepter";
+import { useRouter } from "next/navigation";
+import InputField from "../../ui/InputField/InputField";
+import Link from "next/link";
+import RadioButton from "../../ui/RadioButton/RadioButton";
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required")
     .matches(
-      /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
+      /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
       "Invalid Email Format"
     ),
   password: Yup.string()
@@ -24,72 +29,134 @@ const validationSchema = Yup.object({
       /[@$!%*?&]/,
       "Password must contain at least one special character"
     ),
+  role: Yup.string()
+    .required("Please select a role")
+    .oneOf(["vendor", "doctor", "user", "admin"], "Invalid role selected"),
 });
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
+    role: "",
   };
 
   const handleSubmit = async (
     values: LoginFormValues,
-    { setSubmitting, setErrors, resetForm }: FormikHelpers<LoginFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      console.log("Submitting values:", values);
-    } catch (error) {}
+      const response = await login(values);
+      resetForm();
+
+      const { role } = response;
+      if (role === "admin") {
+        toast.success("Admin login successfully");
+        router.push("/admin");
+      } else if (role === "vendor") {
+        toast.success("Vendor login successfully");
+        router.push("/vendor");
+      } else if (role === "doctor") {
+        toast.success("Doctor login successfully");
+        router.push("/doctor");
+      } else if (role === "user") {
+        toast.success("User login successfully");
+        router.push("/");
+      } else {
+        toast.error("Unrecognized role");
+      }
+    } catch (error: any) {
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 400) {
+          toast.error(data.message);
+        } else if (status === 402) {
+          toast.error("No account found. Please create an account.");
+          resetForm();
+          router.push('/signup');
+        } else if (status === 403) {
+          toast.error("Invalid username/password");
+          resetForm();
+        } else {
+          toast.error("Server error: Please try again later.");
+          resetForm();
+        }
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+        resetForm();
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
+
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ values, errors, touched, isSubmitting, setFieldValue }) => (
           <Form className="space-y-5 text-start">
-            <div className="relative">
-              <label htmlFor="email" className="text-gray-500 text-sm">
-                Email
-              </label>
-              <div className="flex items-center bg-gray-800 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaEnvelope className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
-                />
-              </div>
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
+            <InputField
+              name="email"
+              icon={FaEnvelope}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Email"
+              placeholder="Enter Email"
+              type="text"
+            />
+            <InputField
+              name="password"
+              icon={FaLock}
+              iconClassName="h-4 w-4 text-gray-400 mr-3"
+              label="Password"
+              placeholder="Enter Password"
+              type="password"
+            />
 
-            <div className="relative">
-              <label htmlFor="password" className="text-gray-500 text-sm">
-                Password
-              </label>
-              <div className="flex items-center bg-gray-800 rounded-lg p-2 shadow hover:shadow-md transition duration-300 border border-zinc-100 border-opacity-20">
-                <FaLock className="h-4 w-4 text-gray-400 mr-3" />
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none"
+            <fieldset className="space-y-3">
+              <legend className="text-gray-500 text-sm">
+                Select an option:
+              </legend>
+              <div className="flex justify-between items-center gap-x-4">
+                <RadioButton
+                  name="role"
+                  value="user"
+                  label="User"
+                  checked={values.role === "user"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="doctor"
+                  label="Doctor"
+                  checked={values.role === "doctor"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="vendor"
+                  label="Vendor"
+                  checked={values.role === "vendor"}
+                  onChange={(value) => setFieldValue("role", value)}
+                />
+                <RadioButton
+                  name="role"
+                  value="admin"
+                  label="Admin"
+                  checked={values.role === "admin"}
+                  onChange={(value) => setFieldValue("role", value)}
                 />
               </div>
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-xs mt-1"
-              />
-            </div>
+              {errors.role && touched.role && (
+                <p className="text-red-500 text-sm mt-2">{errors.role}</p>
+              )}
+            </fieldset>
 
             <button
               type="submit"
@@ -101,6 +168,16 @@ const LoginForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+
+      <p className="mt-4 text-center text-sm text-gray-600">
+        Not a User?{" "}
+        <Link
+          href="/signup"
+          className="text-green-600 font-semibold hover:underline"
+        >
+          Signup
+        </Link>
+      </p>
     </div>
   );
 };

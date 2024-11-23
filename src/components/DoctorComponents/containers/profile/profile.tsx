@@ -9,7 +9,7 @@ import ConsentCheckbox from "@/components/baseComponents/ui/ConsentCheckbox/Cons
 import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/SingleDatePicker";
 import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
 import { DoctorProfileForm } from "@/interfaces/doctor";
-import axiosInstance from "@/lib/axiosInterceptor";
+import api from "@/lib/axiosIntercepter";
 
 const ProfilePage: React.FC = () => {
   const [profilePic, setProfilePic] = useState<string | null>(null);
@@ -98,7 +98,7 @@ const ProfilePage: React.FC = () => {
         }
       });
 
-      const response = await axiosInstance.post("/doctor/profile", formData, {
+      const response = await api.post("/doctor/profile", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
