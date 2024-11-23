@@ -1,25 +1,11 @@
 "use client";
 import { useState } from "react";
 import { MdStore, MdMedicalServices, MdPeople } from "react-icons/md";
-import StatCard from "@/components/BaseComponents/ui/StatCard/StatCard";
-import RevenueGraph from "../../ui/RevenueGraph/RevenueGraph";
-
-type Vendor = {
-  category: string;
-  date: string;
-  status: "Pending" | "Completed" | "Cancelled";
-  name: string;
-  place: string;
-};
-
-type Activity = {
-  type: "vendor" | "user" | "order";
-  message: string;
-  time: string;
-};
-
-const Dashboard: React.FC = () => {
-  const [vendors, setVendors] = useState<Vendor[]>([
+import RevenueGraph from "@/components/AdminComponents/ui/RevenueGraph/RevenueGraph";
+import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
+ 
+const Dashboard = () => {
+  const [vendors, setVendors] = useState([
     {
       category: "Hospital",
       date: "Jan 4, 2022",
@@ -57,7 +43,7 @@ const Dashboard: React.FC = () => {
     },
   ]);
 
-  const recentActivities: Activity[] = [
+  const recentActivities = [
     {
       type: "vendor",
       message: "Aims Hospital registered as a new vendor.",
@@ -89,9 +75,7 @@ const Dashboard: React.FC = () => {
     <div className="bg-black text-white p-8 flex h-full w-full flex-col">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-green-700">
-            Welcome Back, Admin
-          </h1>
+          <h1 className="text-4xl font-bold">Welcome Back, Admin</h1>
           <p className="text-lg text-gray-400">
             Here's an overview of your platform.
           </p>
@@ -110,7 +94,7 @@ const Dashboard: React.FC = () => {
 
       {/* Revenue Graph */}
       <div className="mb-8">
-        <RevenueGraph/>
+        <RevenueGraph />
       </div>
 
       {/* Recent Activity Feed */}
@@ -126,7 +110,6 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Recent Status in Vendors */}
       <div className="bg-gray-800 p-6 rounded-md shadow-lg mb-8">
         <h2 className="text-xl font-semibold mb-4">Recent Status in Vendors</h2>
         <div className="divide-y divide-gray-700">

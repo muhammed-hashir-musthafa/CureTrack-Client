@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import signupBg from "../../../../public/images/signupBg.png";
+import signupBg from "../../../../../public/images/signupBg.png";
+import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
 import SignupForm from "@/components/adminComponents/forms/SignupForm/SignupForm";
-import BaseLogo from "@/components/\BaseComponents/ui/baseLogo/baseLogo";
-
+  
 const AdminSignupPage = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
