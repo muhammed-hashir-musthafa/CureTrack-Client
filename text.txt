@@ -17,3 +17,6 @@ perf: A code change that improves performance
 test: Adding or correcting tests
 chore: Changes to the build process, tools, or other dev-related tasks
 ci: Changes to CI/CD configuration files and scripts
+
+
+Remove-Item -Recurse -Force .git\rebase-merge
