@@ -1,114 +1,234 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { FC } from "react";
+import {
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiCheckCircle,
+  FiXCircle,
+  FiClock,
+  FiArrowLeft,
+} from "react-icons/fi";
 
-const vendors = [
-  {
-    vendor: {
-      name: "Nila",
-      initials: "PB",
-      place: "Calicut",
-      vendorType: "Hospital",
-      imageUrl: "https://www.meitra.com/public/upload_file/63130c0088dcf1662192640.jpg",
-      bgColor: "bg-lime-200",
-      contact: "90876 12534",
+const dummyVendorData = {
+  _id: "60b6c0f72f9b4e3a8e9f8cfc",
+  name: "City Hospital",
+  email: "contact@cityhospital.com",
+  phoneNumber: 1234567890,
+  city: "New York",
+  address: {
+    buildingNumber: "45",
+    street: "Park Avenue",
+    city: "New York",
+    state: ["New York"],
+    country: ["USA"],
+    pincode: 10001,
+  },
+  vendorRole: ["hospital"],
+  isActive: true,
+  createdAt: "2024-01-15T09:00:00Z",
+  license: "LIC12345",
+  licenseExpiry: "2025-01-15T09:00:00Z",
+  operationalHours: ["Mon-Fri: 9:00 AM - 6:00 PM"],
+  serviceOffered: ["General Consultation", "Emergency Services"],
+  image: "https://thumbs.dreamstime.com/z/hospital-building-modern-parking-lot-59693686.jpg?w=768",
+  additionalData: {
+    hospital: {
+      bedCount: 200,
+      departments: ["Cardiology", "Orthopedics", "Neurology"],
     },
-    date: "Jan 4, 2022",
-    status: {
-      text: "Approved",
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-950",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4 text-emerald-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-      ),
+    lab: {
+      testsOffered: ["Blood Test", "X-Ray", "MRI"],
+      labCertification: "ISO 9001 Certified",
+    },
+    pharmacy: {
+      medicinesAvailable: 5000,
+      deliveryService: true,
     },
   },
-];
+};
 
-const VendorDetails = () => {
-  const router = useRouter();
-  const vendor = vendors[0];
+const VendorDetailPage: FC = () => {
+  const vendor = dummyVendorData;
 
-  if (!vendor) {
-    return <p>Vendor not found.</p>;
-  }
+  const licenseStatus = new Date(vendor.licenseExpiry) > new Date();
+
+  const renderVendorSpecificData = () => {
+    switch (vendor.vendorRole[0]) {
+      case "hospital":
+        return (
+          <div className="bg-neutral-900 p-4 rounded-md shadow col-span-1 sm:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Hospital Details</h2>
+            <p>
+              <span className="font-semibold">Bed Count:</span>{" "}
+              {vendor.additionalData.hospital.bedCount}
+            </p>
+            <p>
+              <span className="font-semibold">Departments:</span>{" "}
+              {vendor.additionalData.hospital.departments.join(", ")}
+            </p>
+          </div>
+        );
+      case "lab":
+        return (
+          <div className="bg-neutral-700 p-4 rounded-md shadow col-span-1 sm:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Lab Details</h2>
+            <p>
+              <span className="font-semibold">Tests Offered:</span>{" "}
+              {vendor.additionalData.lab.testsOffered.join(", ")}
+            </p>
+            <p>
+              <span className="font-semibold">Certification:</span>{" "}
+              {vendor.additionalData.lab.labCertification}
+            </p>
+          </div>
+        );
+      case "pharmacy":
+        return (
+          <div className="bg-neutral-700 p-4 rounded-md shadow col-span-1 sm:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Pharmacy Details</h2>
+            <p>
+              <span className="font-semibold">Medicines Available:</span>{" "}
+              {vendor.additionalData.pharmacy.medicinesAvailable}
+            </p>
+            <p>
+              <span className="font-semibold">Delivery Service:</span>{" "}
+              {vendor.additionalData.pharmacy.deliveryService
+                ? "Available"
+                : "Not Available"}
+            </p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen flex  items-center justify-center bg-neutral-900 text-neutral-200 p-6">
-      <div className="flex max-w-4xl w-full bg-neutral-800 rounded-lg shadow-lg overflow-hidden">
-        {/* Left Side: Image */}
-        <div className="w-1/2">
-          <img
-            src={vendor.vendor.imageUrl}
-            alt="Vendor"
-            className="w-full h-full object-cover"
-          />
+    <div className="min-h-screen bg-black text-neutral-200 p-6 sm:p-10">
+      {/* Back Button */}
+      <button
+        className="flex items-center gap-2 text-neutral-400 hover:text-green-500"
+        onClick={() => window.history.back()}
+      >
+        <FiArrowLeft className="w-5 h-5" />
+        <span>Back</span>
+      </button>
+
+      {/* Vendor Image */}
+      <div className="relative w-full h-80 bg-cover bg-center rounded-lg shadow-md overflow-hidden mt-6 mb-8">
+        <img
+          src={vendor.image}
+          alt={vendor.name}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent"></div>
+        <div className="absolute bottom-4 left-6">
+          <h1 className="text-3xl font-bold text-green-500">{vendor.name}</h1>
+          <p className="text-neutral-400">{vendor.vendorRole.join(", ")}</p>
         </div>
+      </div>
 
-        {/* Right Side: Vendor Details */}
-        <div className="w-1/2 p-8">
-          <h1 className="text-3xl font-bold mb-6">Vendor Details</h1>
-          <div className="flex items-center gap-3 mb-6">
-            <div
-              className={`w-12 h-12 flex items-center justify-center rounded-full ${vendor.vendor.bgColor} text-neutral-900 font-semibold`}
+      <div className="bg-neutral-950 p-6 sm:p-10 rounded-lg shadow-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Contact Details */}
+          <div className="bg-neutral-900 p-4 rounded-md shadow">
+            <h2 className="text-xl font-semibold mb-4">Contact Details</h2>
+            <p className="flex items-center gap-2">
+              <FiMail className="text-green-500" />
+              {vendor.email}
+            </p>
+            <p className="flex items-center gap-2">
+              <FiPhone className="text-green-500" />
+              {vendor.phoneNumber}
+            </p>
+            <p className="flex items-center gap-2">
+              <FiMapPin className="text-green-500" />
+              {`${vendor.address.street}, ${vendor.address.city}, ${vendor.address.state}, ${vendor.address.country} - ${vendor.address.pincode}`}
+            </p>
+          </div>
+
+          {/* License Details */}
+          <div className="bg-neutral-900 p-4 rounded-md shadow">
+            <h2 className="text-xl font-semibold mb-4">License Details</h2>
+            <p>
+              <span className="font-semibold">License Number:</span>{" "}
+              {vendor.license}
+            </p>
+            <p>
+              <span className="font-semibold">Expiry Date:</span>{" "}
+              {new Date(vendor.licenseExpiry).toLocaleDateString()}
+            </p>
+            <p
+              className={`mt-2 p-2 rounded-md ${
+                licenseStatus
+                  ? "bg-green-900 text-green-500"
+                  : "bg-red-900 text-red-500"
+              }`}
             >
-              {vendor.vendor.initials}
-            </div>
-            <div>
-              <h2 className="text-xl font-bold">{vendor.vendor.name}</h2>
-              <p className="text-sm text-neutral-400">{vendor.vendor.vendorType}</p>
-            </div>
+              {licenseStatus ? "License Valid" : "License Expired"}
+            </p>
           </div>
 
-          <div className="mb-4">
-            <h3 className="font-semibold text-neutral-400">Place</h3>
-            <p>{vendor.vendor.place}</p>
-          </div>
-
-          <div className="mb-4">
-            <h3 className="font-semibold text-neutral-400">Contact</h3>
-            <p>{vendor.vendor.contact}</p>
-          </div>
-
-          <div className="mb-4">
-            <h3 className="font-semibold text-neutral-400">Requested Date</h3>
-            <p>{vendor.date}</p>
-          </div>
-
-          <div className="mb-6 flex items-center">
-            <span className="font-semibold text-neutral-400 mr-2">Status:</span>
+          {/* Approval Status */}
+          <div className="bg-neutral-900 p-4 rounded-md shadow">
+            <h2 className="text-xl font-semibold mb-4">Active Status</h2>
             <div
-              className={`flex items-center gap-1 px-2 py-1 rounded-full ${vendor.status.bgColor}`}
+              className={`flex items-center gap-2 p-2 rounded-md ${
+                vendor.isActive
+                  ? "bg-green-900 text-green-500"
+                  : "bg-red-900 text-red-500"
+              }`}
             >
-              {vendor.status.icon}
-              <span className={`${vendor.status.color} font-semibold`}>
-                {vendor.status.text}
-              </span>
+              {vendor.isActive ? (
+                <>
+                  <FiCheckCircle className="w-6 h-6" />
+                  <span>Active</span>
+                </>
+              ) : (
+                <>
+                  <FiXCircle className="w-6 h-6" />
+                  <span>Inactive</span>
+                </>
+              )}
             </div>
           </div>
 
-          <button
-            className="w-full py-3 bg-emerald-500 text-white rounded-md font-semibold hover:bg-emerald-600"
-            onClick={() => router.push("/admin/vendors-list")}
-          >
-            Back to Vendors
-          </button>
+          {/* Registration Date */}
+          <div className="bg-neutral-900 p-4 rounded-md shadow">
+            <h2 className="text-xl font-semibold mb-4">Registration Date</h2>
+            <p>
+              <FiClock className="text-green-500 inline-block mr-2" />
+              {new Date(vendor.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+
+          {/* Operational Hours */}
+          <div className="bg-neutral-900 p-4 rounded-md shadow col-span-1 sm:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Operational Hours</h2>
+            <ul className="list-disc pl-6">
+              {vendor.operationalHours.map((hour, index) => (
+                <li key={index}>{hour}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services Offered */}
+          {/* <div className="bg-neutral-700 p-4 rounded-md shadow col-span-1 sm:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Services Offered</h2>
+            <ul className="list-disc pl-6">
+              {vendor.serviceOffered.map((service, index) => (
+                <li key={index}>{service}</li>
+              ))}
+            </ul>
+          </div> */}
+
+          {/* Vendor-Specific Data */}
+          {renderVendorSpecificData()}
         </div>
       </div>
     </div>
   );
 };
 
-export default VendorDetails;
+export default VendorDetailPage;

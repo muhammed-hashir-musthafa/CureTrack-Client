@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import { MdStore, MdMedicalServices, MdPeople } from "react-icons/md";
-import StatCard from "@/components/BaseComponents/ui/StatCard/StatCard";
+import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
 import RevenueGraph from "../../ui/RevenueGraph/RevenueGraph";
+
 
 type Vendor = {
   category: string;

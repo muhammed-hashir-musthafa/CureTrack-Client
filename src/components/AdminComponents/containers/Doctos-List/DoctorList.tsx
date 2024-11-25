@@ -1,14 +1,13 @@
 "use client";
-import { useState, ChangeEvent, FC } from "react";
-import { useRouter } from "next/navigation";
-import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
+import { useState, useEffect, ChangeEvent, FC } from "react";
+import { FiUserCheck, FiUserX } from "react-icons/fi";
 import TableData from "@/components/BaseComponents/ui/Table/TableData";
 import TableHeader from "@/components/BaseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/BaseComponents/ui/SearchBar/SearchBar";
 import ConfirmationModal from "@/components/BaseComponents/ui/Modals/ConfirmationModal";
 import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
+import Link from "next/link";
 
-// Assuming IDoctors interface is imported
 interface IDoctors {
   _id: string;
   FullName: string;
@@ -61,28 +60,16 @@ const dummyDoctorsData = [
   },
 ];
 const DoctorsList: FC = () => {
-  const [doctors, setDoctors] = useState<IDoctors[]>(dummyDoctorsData);
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<IDoctors | null>(null);
-  const router = useRouter();
+  const [doctors, setDoctors] = useState(dummyDoctorsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState("All");
+  const [filterStatus, setFilterStatus] = useState("All");
+  const [mounted, setMounted] = useState(false);
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  };
-
-  const toggleDoctorStatus = (doctorId: string) => {
-    setDoctors((prevDoctors) =>
-      prevDoctors.map((doctor) =>
-        doctor._id === doctorId
-          ? { ...doctor, IsActive: !doctor.IsActive }
-          : doctor
-      )
-    );
-  };
-
-  const navigateToDoctorDetails = (doctorId: string) => {
-    router.push(`/admin/doctors/doctor`);
   };
 
   const openModal = (doctor: IDoctors) => {
@@ -95,23 +82,15 @@ const DoctorsList: FC = () => {
     setSelectedDoctor(null);
   };
 
-  const [selectedSpecialization, setSelectedSpecialization] =
-    useState<string>("All");
-  const [filterStatus, setFilterStatus] = useState<string>("All");
-
   const specializations = Array.from(
     new Set(dummyDoctorsData.flatMap((doctor) => doctor.Specialization))
   );
 
-  const handleSpecializationChange = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedSpecialization(event.target.value);
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFilterStatus(event.target.value);
-  };
+  if (!mounted) return null;
 
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
@@ -150,22 +129,21 @@ const DoctorsList: FC = () => {
         Doctors Management
       </h1>
 
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+      <div className="flex justify-between items-center mb-6 gap-4">
         {/* Search Bar on Left */}
         <div className="flex-grow sm:flex-grow-0">
-          <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
+          <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} placeholder={"Search by name or email..."}/>
         </div>
 
-        {/* Filters on Right */}
-        <div className="flex gap-4 items-center">
-          <div className="w-full max-w-xs mx-auto">
+        <div className="ml-auto flex gap-4 items-center">
+          <div className="w-full max-w-xs">
             <Dropdown
               value={selectedSpecialization}
               options={["All", ...specializations]}
               onChange={(option) => setSelectedSpecialization(option.value)}
             />
           </div>
-          <div className="w-full max-w-xs mx-auto">
+          <div className="w-full max-w-xs">
             <Dropdown
               value={filterStatus}
               options={["All", "Active", "Inactive"]}
@@ -239,9 +217,11 @@ const DoctorsList: FC = () => {
                   </button>
                 </TableData>
                 <TableData className="text-center">
-                  <button className="text-emerald-500 font-semibold">
-                    View
-                  </button>
+                  <Link href={`/admin/doctors/doctor`}>
+                    <button className="text-emerald-500 font-semibold">
+                      View
+                    </button>
+                  </Link>
                 </TableData>
               </tr>
             ))}
@@ -256,6 +236,8 @@ const DoctorsList: FC = () => {
         message={`Are you sure you want to ${
           selectedDoctor?.IsActive ? "block" : "unblock"
         } this doctor?`}
+        confirmText={selectedDoctor?.IsActive ? "Unblock" : "Block"}
+
       />
     </div>
   );
