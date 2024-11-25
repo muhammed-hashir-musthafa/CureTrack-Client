@@ -1,19 +1,19 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchDoctorsApi, toggleDoctorStatusApi, searchDoctorsApi, getDoctorByIdApi } from "@/api/adminApi/adminApi";
+import { getUsersApi, toggleDoctorStatusApi, getDoctorByIdApi } from "@/api/adminApi/adminApi";
 
 export const useDoctors = (page: number, limit: number) => {
   const queryClient = useQueryClient();
 
   const doctorsQuery = useQuery({
     queryKey: ["doctors", page, limit],
-    queryFn: () => fetchDoctorsApi(page, limit),
+    queryFn: () => getUsersApi(page, limit),
   });
 
   const toggleDoctorStatusMutation = useMutation({
-    mutationFn: async (data: { doctorId: string; isBlocked: boolean }) => {
-      const { doctorId, isBlocked } = data;
-      return toggleDoctorStatusApi(doctorId, isBlocked);
+    mutationFn: async (data: { doctorId: string; isActive: boolean }) => {
+      const { doctorId, isActive } = data;
+      return toggleDoctorStatusApi(doctorId, isActive);
     },
     onSuccess: (updatedDoctor) => {
       queryClient.setQueryData(["doctors"], (oldDoctors: any) =>
@@ -24,12 +24,7 @@ export const useDoctors = (page: number, limit: number) => {
     },
   });
 
-  const searchDoctorsMutation = useMutation({
-    mutationFn: (searchQuery: string) => searchDoctorsApi(searchQuery),
-    onSuccess: (searchResults) => {
-      queryClient.setQueryData(["doctors"], () => searchResults.data);
-    },
-  });
+
 
   const getDoctorByIdQuery = (doctorId: string) => 
     useQuery({
@@ -40,7 +35,6 @@ export const useDoctors = (page: number, limit: number) => {
   return { 
     doctorsQuery, 
     toggleDoctorStatusMutation, 
-    searchDoctorsMutation,
     getDoctorByIdQuery,
   };
 };
