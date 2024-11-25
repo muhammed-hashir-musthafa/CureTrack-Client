@@ -163,7 +163,7 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
 
                 <TableData className="text-center">
                   {doctor.experience}
-                </TableData>
+                </TableData> 
                 <TableData className="text-center">
                   <AddNewButton
                     label="Add"
