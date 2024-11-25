@@ -156,7 +156,7 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
                     <span>{doctor.FullName}</span>
                   </div>
                 </TableData> 
-                <TableData>{doctor.Email}</TableData>
+                <TableData>{doctor.Email}</TableData> 
                 <TableData>{doctor.PhoneNumber}</TableData>
                 <TableData>{doctor.IMAId}</TableData>
                 <TableData>{doctor.Specialization.join(", ")}</TableData>
