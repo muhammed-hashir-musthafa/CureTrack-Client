@@ -64,8 +64,6 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
   const [doctors, setDoctors] = useState<IDoctors[]>(dummyDoctorsData);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const router = useRouter();
-
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };

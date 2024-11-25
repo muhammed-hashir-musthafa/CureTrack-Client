@@ -6,7 +6,7 @@ import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
 import axios from "axios";
 import { Activity, Appointment, StatsResponse } from "@/interfaces/doctor";
 
-const DoctorDashboard = () => {
+const DoctorDashboard = () => { 
   const [stats, setStats] = useState<StatsResponse>({
     totalCompletedConsultations: 0,
     totalScheduledConsultations: 0,

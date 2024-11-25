@@ -11,7 +11,7 @@ import DropdownField from "@/components/baseComponents/ui/DropdownField/Dropdown
 import { DoctorProfileForm } from "@/interfaces/doctor";
 import api from "@/lib/axiosIntercepter";
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC = () => { 
   const [profilePic, setProfilePic] = useState<string | null>(null);
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

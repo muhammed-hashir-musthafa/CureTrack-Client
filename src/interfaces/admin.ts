@@ -2,13 +2,13 @@ import { JSX, ReactNode } from "react";
 
 //Sidebar Interfaces
 export interface LinkItem {
-  label: string; 
+  label: string;
   link: string;
   icon: JSX.Element;
 }
 
 export interface SidebarProps {
-  role: "admin" | "user" |  "hospital" | "lab" | "pharmacy" | "doctor";
+  role: "admin" | "user" | "hospital" | "lab" | "pharmacy" | "doctor";
   onLinkClick: () => void;
 }
 
