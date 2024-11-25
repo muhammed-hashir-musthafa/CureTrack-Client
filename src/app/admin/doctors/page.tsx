@@ -1,8 +1,8 @@
-import DoctorList from "@/components/AdminComponents/containers/Doctos-List/DoctorList";
+ import DoctorsList from "@/components/adminComponents/containers/Doctos-List/DoctorList";
 import React from "react";
 
 const page = () => {
-  return <DoctorList />;
+  return <DoctorsList />;
 };
 
 export default page;

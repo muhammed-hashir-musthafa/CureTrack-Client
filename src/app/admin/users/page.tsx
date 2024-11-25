@@ -1,4 +1,4 @@
-import UsersList from "@/components/AdminComponents/containers/Users-List/UsersList";
+ import UsersList from "@/components/adminComponents/containers/Users-List/UsersList";
 import React from "react";
 
 const UserListPage = () => {
