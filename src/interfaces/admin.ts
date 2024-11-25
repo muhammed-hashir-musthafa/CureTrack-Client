@@ -8,7 +8,7 @@ export interface LinkItem {
 }
 
 export interface SidebarProps {
-  role: "admin" | "user" | "hospital" | "lab" | "pharmacy" | "doctor";
+  role: "admin" | "user" |  "hospital" | "lab" | "pharmacy" | "doctor";
   onLinkClick: () => void;
 }
 
