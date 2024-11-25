@@ -5,22 +5,17 @@ import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
 import TableData from "@/components/baseComponents/ui/Table/TableData";
 import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
-import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
 import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
- 
-// Assuming IDoctors interface is imported
-interface IDoctors {
-  _id: string;
-  FullName: string;
-  Email: string;
-  PhoneNumber: number;
-  Specialization: string[];
-  ConsultationFee: number;
-  IMAId: string;
-  ProfilePicture: string | null;
-  CreatedAt: string;
-  IsActive: boolean;
-}
+import { IDoctors } from "@/interfaces/doctor";
+import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
+import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
+import mge from "../../../../../../public/images/Logo.jpg";
+import { MdStore } from "react-icons/md";
+import Button from "@/components/adminComponents/ui/Buttons/ViewButton";
+import { FaPlus } from "react-icons/fa";
+import AddNewButton from "@/components/baseComponents/ui/AddNewButton/AddNewButton";
+import Image from "next/image";
+import { NavbarProps } from "@/interfaces/common";
 
 const dummyDoctorsData = [
   {
@@ -34,6 +29,7 @@ const dummyDoctorsData = [
     ProfilePicture: "path/to/profile-picture.jpg",
     CreatedAt: "2024-01-15T09:00:00Z",
     IsActive: true,
+    experience: "1 Year",
   },
   {
     _id: "60b6c0f72f9b4e3a8e9f8cfd",
@@ -46,6 +42,7 @@ const dummyDoctorsData = [
     ProfilePicture: "path/to/profile-picture-2.jpg",
     CreatedAt: "2024-02-10T10:30:00Z",
     IsActive: true,
+    experience: "1 Year",
   },
   {
     _id: "60b6c0f72f9b4e3a8e9f8cfe",
@@ -58,41 +55,19 @@ const dummyDoctorsData = [
     ProfilePicture: "path/to/profile-picture-3.jpg",
     CreatedAt: "2024-03-20T11:45:00Z",
     IsActive: false,
+    experience: "1 Year",
   },
 ];
-const DoctorsList: FC = () => {
+const AddDoctorsClient: React.FC<NavbarProps> = ({
+  profileSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png",
+}) => {
   const [doctors, setDoctors] = useState<IDoctors[]>(dummyDoctorsData);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showModal, setShowModal] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState<IDoctors | null>(null);
+
   const router = useRouter();
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  };
-
-  const toggleDoctorStatus = (doctorId: string) => {
-    setDoctors((prevDoctors) =>
-      prevDoctors.map((doctor) =>
-        doctor._id === doctorId
-          ? { ...doctor, IsActive: !doctor.IsActive }
-          : doctor
-      )
-    );
-  };
-
-  const navigateToDoctorDetails = (doctorId: string) => {
-    router.push(`/admin/doctors/doctor`);
-  };
-
-  const openModal = (doctor: IDoctors) => {
-    setSelectedDoctor(doctor);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedDoctor(null);
   };
 
   const [selectedSpecialization, setSelectedSpecialization] =
@@ -102,16 +77,6 @@ const DoctorsList: FC = () => {
   const specializations = Array.from(
     new Set(dummyDoctorsData.flatMap((doctor) => doctor.Specialization))
   );
-
-  const handleSpecializationChange = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedSpecialization(event.target.value);
-  };
-
-  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFilterStatus(event.target.value);
-  };
 
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
@@ -130,46 +95,31 @@ const DoctorsList: FC = () => {
     return matchesSearch && matchesSpecialization && matchesStatus;
   });
 
-  const confirmToggleStatus = () => {
-    if (selectedDoctor) {
-      setDoctors((prevDoctors) =>
-        prevDoctors.map((doctor) =>
-          doctor._id === selectedDoctor._id
-            ? { ...doctor, IsActive: !doctor.IsActive }
-            : doctor
-        )
-      );
-      setShowModal(false);
-      setSelectedDoctor(null);
-    }
+  const handleAddDoctor = () => {
+    // router.push(`/hospital/addDoctor`);
+    console.log("subject");
+  };
+  const handleView = () => {
+    console.log("object");
   };
 
   return (
     <div className="min-h-screen bg-black p-4 sm:p-8 w-full">
-      <h1 className="text-3xl font-bold mb-8 text-center text-green-700 tracking-wide">
-        Doctors Management
+      <h1 className="text-3xl font-bold mb-8 text-center text-green-500 tracking-wide">
+        Doctors
       </h1>
 
       <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-        {/* Search Bar on Left */}
         <div className="flex-grow sm:flex-grow-0">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
         </div>
 
-        {/* Filters on Right */}
         <div className="flex gap-4 items-center">
           <div className="w-full max-w-xs mx-auto">
             <Dropdown
               value={selectedSpecialization}
               options={["All", ...specializations]}
               onChange={(option) => setSelectedSpecialization(option.value)}
-            />
-          </div>
-          <div className="w-full max-w-xs mx-auto">
-            <Dropdown
-              value={filterStatus}
-              options={["All", "Active", "Inactive"]}
-              onChange={(option) => setFilterStatus(option.value)}
             />
           </div>
         </div>
@@ -182,10 +132,10 @@ const DoctorsList: FC = () => {
               <TableHeader label="Full Name" />
               <TableHeader label="Email" />
               <TableHeader label="Phone" />
+              <TableHeader label="IMA Id" />
               <TableHeader label="Specialization" />
-              <TableHeader label="Status" />
+              <TableHeader label="Experience" />
               <TableHeader label="Actions" />
-              <TableHeader label="Details" />
             </tr>
           </thead>
           <tbody>
@@ -194,71 +144,40 @@ const DoctorsList: FC = () => {
                 key={doctor._id}
                 className={index % 2 === 1 ? "bg-zinc-900" : ""}
               >
-                <TableData>{doctor.FullName}</TableData>
-                <TableData>{doctor.Email}</TableData>
-                <TableData>{doctor.PhoneNumber}</TableData>
-                <TableData>{doctor.Specialization.join(", ")}</TableData>
                 <TableData>
-                  <div
-                    className={`flex gap-1 items-center self-stretch py-0.5 pr-2 pl-1.5 my-auto rounded-2xl ${
-                      doctor.IsActive
-                        ? "bg-emerald-950 text-emerald-500"
-                        : "bg-red-950 text-red-500"
-                    }`}
-                  >
-                    {doctor.IsActive ? (
-                      <FiUserCheck className="w-4 h-4" />
-                    ) : (
-                      <FiUserX className="w-4 h-4" />
-                    )}
-                    <div className="self-stretch my-auto text-xs font-semibold">
-                      {doctor.IsActive ? "Active" : "Inactive"}
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      width={32}
+                      height={32}
+                      src={profileSrc}
+                      alt="Profile"
+                      className="h-8 w-8 rounded-full object-cover me-3"
+                    />
+                    <span>{doctor.FullName}</span>
                   </div>
                 </TableData>
+                <TableData>{doctor.Email}</TableData>
+                <TableData>{doctor.PhoneNumber}</TableData>
+                <TableData>{doctor.IMAId}</TableData>
+                <TableData>{doctor.Specialization.join(", ")}</TableData>
+
                 <TableData className="text-center">
-                  <button
-                    onClick={() => openModal(doctor)}
-                    className={`text-sm font-semibold rounded-lg px-4 py-2 transition-colors duration-200 ${
-                      doctor.IsActive
-                        ? "bg-red-500 text-white hover:bg-red-600"
-                        : "bg-green-500 text-white hover:bg-green-600"
-                    }`}
-                  >
-                    {doctor.IsActive ? (
-                      <>
-                        <FiUserX className="inline-block mr-1" />
-                        Block
-                      </>
-                    ) : (
-                      <>
-                        <FiUserCheck className="inline-block mr-1" />
-                        Unblock
-                      </>
-                    )}
-                  </button>
+                  {doctor.experience}
                 </TableData>
                 <TableData className="text-center">
-                  <button className="text-emerald-500 font-semibold">
-                    View
-                  </button>
+                  <AddNewButton
+                    label="Add"
+                    icon={<FaPlus className="text-teal-500" />}
+                    onClick={handleAddDoctor}
+                  />
                 </TableData>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-{/* 
-      <ConfirmationModal
-        isOpen={showModal}
-        onClose={closeModal}
-        onConfirm={confirmToggleStatus}
-        message={`Are you sure you want to ${
-          selectedDoctor?.IsActive ? "block" : "unblock"
-        } this doctor?`}
-      /> */}
     </div>
   );
 };
 
-export default DoctorsList;
+export default AddDoctorsClient;

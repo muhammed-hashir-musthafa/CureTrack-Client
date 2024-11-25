@@ -1,10 +1,10 @@
 "use client";
 import { useState, ChangeEvent, FC } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
-import TableData from "@/components/BaseComponents/ui/Table/TableData";
-import TableHeader from "@/components/BaseComponents/ui/Table/TableHeader";
-import SearchBar from "@/components/BaseComponents/ui/SearchBar/SearchBar";
-import ConfirmationModal from "@/components/BaseComponents/ui/Modals/ConfirmationModal";
+import TableData from "@/components/baseComponents/ui/Table/TableData";
+import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
+import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
+import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
 
 interface User {
   id: string;

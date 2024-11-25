@@ -3,6 +3,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlineUserGroup,
   HiOutlineChat,
+  HiOutlineBeaker,
 } from "react-icons/hi";
 import { FiFileText } from "react-icons/fi";
 import {
@@ -43,6 +44,7 @@ export const linksByRole: Record<string, LinkItem[]> = {
       icon: <HiOutlineCheckCircle />,
     },
     { label: "Doctors", link: "doctors", icon: <MdMedicalServices /> },
+    { label: "Lab", link: "lab", icon: <HiOutlineBeaker /> },
     { label: "ICU/Facilities", link: "facilities", icon: <FiFileText /> },
     { label: "Messages", link: "messages", icon: <HiOutlineChat /> },
   ],

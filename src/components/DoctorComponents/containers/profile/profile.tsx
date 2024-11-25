@@ -119,8 +119,8 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      <main className="my-6 pb-14 flex-1 p-8 mx-auto max-w-6xl bg-gray-900 rounded-xl shadow-lg border-gray-700 border">
+    <div className="flex min-h-screen bg-black text-white">
+      <main className="my-6 pb-14 flex-1 p-8 mx-auto max-w-6xl bg-neutral-950 rounded-xl shadow-lg border-gray-900 border">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
           <div>
             <h1 className="text-3xl font-bold">Welcome, Doctor Name 👋</h1>

@@ -39,7 +39,7 @@ export interface ConsentCheckboxProps {
 export interface NavbarProps {
   logoSrc?: string | StaticImageData;
   profileSrc: string | StaticImageData;
-  profileName: string;
+  profileName?: string;
   showSearch?: boolean;
   className?: string;
 }

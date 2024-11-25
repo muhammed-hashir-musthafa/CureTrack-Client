@@ -5,22 +5,15 @@ import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
 import TableData from "@/components/baseComponents/ui/Table/TableData";
 import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
-import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
 import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
- 
-// Assuming IDoctors interface is imported
-interface IDoctors {
-  _id: string;
-  FullName: string;
-  Email: string;
-  PhoneNumber: number;
-  Specialization: string[];
-  ConsultationFee: number;
-  IMAId: string;
-  ProfilePicture: string | null;
-  CreatedAt: string;
-  IsActive: boolean;
-}
+import { IDoctors } from "@/interfaces/doctor";
+import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
+import Button from "@/components/adminComponents/ui/Buttons/ViewButton";
+import { FaPlus } from "react-icons/fa";
+import AddNewButton from "@/components/baseComponents/ui/AddNewButton/AddNewButton";
+import Image from "next/image";
+import { NavbarProps } from "@/interfaces/common";
+import Link from "next/link";
 
 const dummyDoctorsData = [
   {
@@ -60,11 +53,14 @@ const dummyDoctorsData = [
     IsActive: false,
   },
 ];
-const DoctorsList: FC = () => {
+const DoctorsList: React.FC<NavbarProps> = ({
+  profileSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png",
+}) => {
   const [doctors, setDoctors] = useState<IDoctors[]>(dummyDoctorsData);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<IDoctors | null>(null);
+
   const router = useRouter();
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -144,19 +140,29 @@ const DoctorsList: FC = () => {
     }
   };
 
+ 
+  const handleView = () => {
+    console.log("object");
+  };
+
   return (
     <div className="min-h-screen bg-black p-4 sm:p-8 w-full">
-      <h1 className="text-3xl font-bold mb-8 text-center text-green-700 tracking-wide">
-        Doctors Management
+      <h1 className="text-3xl font-bold mb-8 text-center text-green-500 tracking-wide">
+        Doctors
       </h1>
 
       <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-        {/* Search Bar on Left */}
         <div className="flex-grow sm:flex-grow-0">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
         </div>
+        <Link href={"/hospital/addDoctor"}>
+          <AddNewButton
+            label="Add New Doctor"
+            icon={<FaPlus className="text-teal-500" />}
+            // onClick={handleAddDoctor}
+          />
+        </Link>
 
-        {/* Filters on Right */}
         <div className="flex gap-4 items-center">
           <div className="w-full max-w-xs mx-auto">
             <Dropdown
@@ -194,7 +200,18 @@ const DoctorsList: FC = () => {
                 key={doctor._id}
                 className={index % 2 === 1 ? "bg-zinc-900" : ""}
               >
-                <TableData>{doctor.FullName}</TableData>
+                <TableData>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      width={32}
+                      height={32}
+                      src={profileSrc}
+                      alt="Profile"
+                      className="h-8 w-8 rounded-full object-cover me-3"
+                    />
+                    <span>{doctor.FullName}</span>
+                  </div>
+                </TableData>
                 <TableData>{doctor.Email}</TableData>
                 <TableData>{doctor.PhoneNumber}</TableData>
                 <TableData>{doctor.Specialization.join(", ")}</TableData>
@@ -221,8 +238,8 @@ const DoctorsList: FC = () => {
                     onClick={() => openModal(doctor)}
                     className={`text-sm font-semibold rounded-lg px-4 py-2 transition-colors duration-200 ${
                       doctor.IsActive
-                        ? "bg-red-500 text-white hover:bg-red-600"
-                        : "bg-green-500 text-white hover:bg-green-600"
+                        ? "bg-green-500 text-white hover:bg-green-600"
+                        : "bg-red-500 text-white hover:bg-red-600"
                     }`}
                   >
                     {doctor.IsActive ? (
@@ -239,24 +256,26 @@ const DoctorsList: FC = () => {
                   </button>
                 </TableData>
                 <TableData className="text-center">
-                  <button className="text-emerald-500 font-semibold">
-                    View
-                  </button>
+                  <Button
+                    onClick={handleView}
+                    label="View"
+                    className="text-emerald-500 font-semibold"
+                  />
                 </TableData>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-{/* 
       <ConfirmationModal
         isOpen={showModal}
         onClose={closeModal}
         onConfirm={confirmToggleStatus}
         message={`Are you sure you want to ${
           selectedDoctor?.IsActive ? "block" : "unblock"
-        } this doctor?`}
-      /> */}
+        } ${selectedDoctor?.FullName}?`}
+        confirmText={"Sure"}
+      />
     </div>
   );
 };

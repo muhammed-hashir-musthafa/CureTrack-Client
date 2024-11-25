@@ -7,8 +7,8 @@ import { HiOutlineLogout } from "react-icons/hi";
 import Image from "next/image";
 import LogoCureTrack from "../../../../../public/logos/Logo-CureTracK.png";
 import { SidebarProps, NavLinkProps } from "@/interfaces/admin";
-import { linksByRole } from "./SidebarLinks";
-   
+import { linksByRole } from "@/components/baseComponents/ui/Sidebar/SidebarLinks";
+    
 const Sidebar: React.FC<SidebarProps> = ({ role, onLinkClick }) => {
   const pathname = usePathname();
   const path = pathname?.split("/")[1] || "";

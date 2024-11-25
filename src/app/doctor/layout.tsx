@@ -1,7 +1,7 @@
   import React from "react";
 import profileSrc from "/public/images/Logo.jpg";
-import RoleSidebar from "@/components/BaseComponents/ui/RoleSidebar/RoleSidebar";
-import BaseNavbar from "@/components/baseComponents/ui/Navbar/Navbar";
+ import BaseNavbar from "@/components/baseComponents/ui/Navbar/Navbar";
+import RoleSidebar from "@/components/baseComponents/ui/RoleSidebar/RoleSidebar";
 
 interface DoctorLayoutProps {
   children: React.ReactNode;

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import OtpBg from "../../../../public/images/loginBg.png";
  import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
-import OtpPageClient from "@/components/baseComponents/containers/otp-page/otp-page";
+import OtpPageClient from "@/components/baseComponents/containers/Otp-page/Otp-page";
 
  
 const Otp: React.FC = () => {

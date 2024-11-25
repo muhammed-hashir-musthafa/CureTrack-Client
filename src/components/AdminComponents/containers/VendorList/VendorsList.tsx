@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState } from "react";
 import Button from "@/components/adminComponents/ui/Buttons/ViewButton";
@@ -6,6 +5,7 @@ import TableData from "@/components/BaseComponents/ui/Table/TableData";
 import TableHeader from "@/components/BaseComponents/ui/Table/TableHeader";
 import { Vendors } from "@/interfaces/admin";
 import Dropdown from "@/components/baseComponents/ui/DropDown/Drop-Down";
+import { useRouter } from "next/navigation";
 
 // Sample vendors data
 const vendors: Vendors[] = [
@@ -46,7 +46,7 @@ const vendors: Vendors[] = [
 
 const VendorTable = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
+  const router = useRouter();
   const options = [
     { value: "All", label: "All" },
     { value: "Hospital", label: "Hospital" },
@@ -62,6 +62,9 @@ const VendorTable = () => {
           (vendor) => vendor.vendor.vendorType === selectedCategory
         );
 
+  const viewHandler = () => {
+    router.push("/admin/vendors-list/vendor");
+  };
   return (
     <section className="flex flex-col gap-4 px-16 py-5 mt-11 w-full max-md:px-5 max-md:mt-10 max-md:max-w-full">
       {/* Category Filter Dropdown */}
@@ -123,7 +126,7 @@ const VendorTable = () => {
                       </div>
                     </TableData>
                     <TableData className="text-center">
-                      <Button label="View" />
+                      <Button onClick={viewHandler} label="View" />
                     </TableData>
                   </tr>
                 ))}

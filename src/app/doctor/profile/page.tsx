@@ -1,4 +1,4 @@
-import RegisterDoctor from "@/components/DoctorComponents/containers/profile/profile";
+import RegisterDoctor from "@/components/doctorComponents/containers/Profile/Profile";
 import React from "react";
 
 const ProfilePage = () => {

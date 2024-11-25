@@ -20,3 +20,7 @@ ci: Changes to CI/CD configuration files and scripts
 
 
 Remove-Item -Recurse -Force .git\rebase-merge
+
+ const viewHandler = () => {
+  router.push('/admin/vendors-list/vendor')
+};
