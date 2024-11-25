@@ -2,7 +2,7 @@ import { JSX, ReactNode } from "react";
 
 //Sidebar Interfaces
 export interface LinkItem {
-  label: string;
+  label: string; 
   link: string;
   icon: JSX.Element;
 }
