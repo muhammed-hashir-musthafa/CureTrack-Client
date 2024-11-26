@@ -1,5 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
+import { HiOutlineArrowLeft } from "react-icons/hi"; // Import the back icon
+import React from "react";
 
 const doctors = [
   {
@@ -44,21 +46,24 @@ const doctors = [
 
 const DoctorDetails: React.FC = () => {
   const router = useRouter();
- 
-  
   const params = useParams();
   const doctorId = params?.doctorId as string;
-  
-  const doctor = doctors.find((doct)=>doct.doctor._id === doctorId)
-  
+  const doctor = doctors.find((doct) => doct.doctor._id === doctorId);
+
   if (!doctor) {
     return <p>Doctor not found.</p>;
   }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-neutral-200 p-6">
       <div className="flex max-w-4xl w-full bg-neutral-800 rounded-lg shadow-lg overflow-hidden">
-        {/* Left Side: Image */}
-        <div className="w-1/2">
+         <div className="relative w-1/2">
+           <button
+            onClick={() => router.back()}
+            className="absolute top-4 left-4 p-1.5 text-black border border-gray-600 bg-opacity-50 rounded-full hover:bg-opacity-75"
+          >
+            <HiOutlineArrowLeft className="w-5 h-5" />
+          </button>
           <img
             src={doctor.doctor.profilePicture}
             alt="Doctor"
@@ -66,8 +71,7 @@ const DoctorDetails: React.FC = () => {
           />
         </div>
 
-        {/* Right Side: Doctor Details */}
-        <div className="w-1/2 p-8">
+         <div className="w-1/2 p-8">
           <h1 className="text-3xl font-bold mb-6">Doctor Details</h1>
           <div className="flex items-center gap-3 mb-6">
             <div
@@ -124,13 +128,6 @@ const DoctorDetails: React.FC = () => {
               </span>
             </div>
           </div>
-
-          <button
-            className="w-full py-3 bg-emerald-500 text-white rounded-md font-semibold hover:bg-emerald-600"
-            onClick={() => router.back()}
-          >
-            Back to Doctors
-          </button>
         </div>
       </div>
     </div>
