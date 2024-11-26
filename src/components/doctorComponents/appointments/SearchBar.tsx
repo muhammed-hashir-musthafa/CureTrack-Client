@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 
 import { FaSearch } from "react-icons/fa";
 
