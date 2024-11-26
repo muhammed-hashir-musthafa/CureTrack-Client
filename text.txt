@@ -24,3 +24,6 @@ Remove-Item -Recurse -Force .git\rebase-merge
  const viewHandler = () => {
   router.push('/admin/vendors-list/vendor')
 };
+
+
+storybook
