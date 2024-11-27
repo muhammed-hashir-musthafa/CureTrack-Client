@@ -6,7 +6,8 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { SignUpFormValues } from "@/interfaces/admin";
 import toast from "react-hot-toast";
-import api from "@/lib/axiosIntercepter";
+ import { signupAdmin } from "@/api/authApi/authApi";
+import { useRouter } from "next/navigation";
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -35,6 +36,7 @@ const validationSchema = Yup.object({
 });
 
 const SignupForm: React.FC = () => {
+  const router = useRouter()
   const initialValues: SignUpFormValues = {
     firstName: "",
     lastName: "",
@@ -45,13 +47,37 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = async (
     values: SignUpFormValues,
-    { setSubmitting, setErrors, resetForm }: FormikHelpers<SignUpFormValues>
+    { setSubmitting, setStatus, resetForm }: FormikHelpers<SignUpFormValues>
   ) => {
+    setSubmitting(true);
     try {
+      await signupAdmin(values);
       console.log("Submitting values:", values);
-    } catch (error) {}
-  };
+      resetForm();
+      toast.success("Please verify your email with the OTP sent");
+      router.push(
+        `/otp-verification?email=${encodeURIComponent(values.email)}`
+      );
+    } catch (error: any) {
+      if (error.response) {
+        const { status, data } = error.response;
 
+        if (status === 400) {
+          setStatus(data.message);
+        } else if (status === 409) {
+          toast.error(
+            "Email already exists. Please use a different email address."
+          );
+        } else {
+          toast.error("Server error: Please try again later.");
+        }
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="w-full mx-auto">
       <Formik

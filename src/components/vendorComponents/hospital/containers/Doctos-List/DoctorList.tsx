@@ -78,7 +78,7 @@ const DoctorsList: React.FC<NavbarProps> = ({
   };
 
   const navigateToDoctorDetails = (doctorId: string) => {
-    router.push(`/admin/doctors/doctor`);
+    router.push(`/hospital/doctors/${doctorId}`);
   };
 
   const openModal = (doctor: IDoctors) => {
@@ -140,7 +140,6 @@ const DoctorsList: React.FC<NavbarProps> = ({
     }
   };
 
- 
   const handleView = () => {
     console.log("object");
   };
@@ -257,9 +256,9 @@ const DoctorsList: React.FC<NavbarProps> = ({
                 </TableData>
                 <TableData className="text-center">
                   <Button
-                    onClick={handleView}
                     label="View"
                     className="text-emerald-500 font-semibold"
+                    onClick={() => navigateToDoctorDetails(doctor._id)}
                   />
                 </TableData>
               </tr>
