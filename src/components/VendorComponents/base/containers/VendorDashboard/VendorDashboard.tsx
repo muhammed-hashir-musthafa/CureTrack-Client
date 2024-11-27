@@ -92,7 +92,6 @@ const DataTable: React.FC<{ columns: any[]; data: any[] }> = ({
   </div>
 );
 
-// Hospital Dashboard Page
 const HospitalDashboard: React.FC = () => (
   <div className="bg-black h-full text-white p-6 w-full">
     {/* Stat Cards */}
