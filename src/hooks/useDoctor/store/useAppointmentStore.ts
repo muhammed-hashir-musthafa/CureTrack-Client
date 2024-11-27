@@ -27,7 +27,7 @@ const useAppointmentStore = create<AppointmentStore>((set) => ({
   pastAppointments: [],
   setAppointments: (appointments) => 
     set(()=>{
-      console.log('done')
+      console.log('done', appointments)
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const upcomingAppintments = appointments.filter(appointment => appointment.appointmentDate &&  new Date(appointment.appointmentDate) > today)

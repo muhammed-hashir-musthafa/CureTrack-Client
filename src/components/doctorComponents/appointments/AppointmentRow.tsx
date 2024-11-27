@@ -13,21 +13,6 @@ interface AppointmentRowProps {
 }
 
 export default function AppointmentRow({ _id, name, appointmentDate, status, handleAction }: AppointmentRowProps) {
-  const { updateStatusState } = useAppointmentStore();
-  const { isLoading, error, updateStatus } = useAppointments();
-  // const handleAction = (_id: string, status: string) => {
-  //   if (isLoading) return; // Prevent duplicate actions during loading
-  //   updateStatus.mutate(
-  //     { _id, status },
-  //     {
-  //       onError: (error) => {
-  //         console.log("Failed to update status:", error);
-  //       },
-  //     }
-  //   );
-    
-  //       updateStatusState(_id, status); // Update Zustand store after success
-  // };
   return (
     <tr className="border-b border-gray-700">
       <td className="py-3 px-4">{name}</td>
