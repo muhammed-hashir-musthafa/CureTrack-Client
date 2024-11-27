@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { MdStore, MdMedicalServices, MdPeople } from "react-icons/md";
 import RevenueGraph from "@/components/AdminComponents/ui/RevenueGraph/RevenueGraph";
-import StatCard from "@/components/BaseComponents/ui/StatCard/StatCard";
+import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
 
 const Dashboard = () => {
   const [vendors, setVendors] = useState([

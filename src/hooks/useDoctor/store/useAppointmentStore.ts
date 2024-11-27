@@ -153,7 +153,7 @@ const useAppointmentStore = create<AppointmentStore>((set) => ({
     }),
   filterByStatus: (status) =>
     set((state) => ({
-      filteredAppointments: state.appointments.filter(
+      filteredAppointments: state.upcomingAppointments.filter(
         (appointment) => appointment.status === status
       ),
     })),
