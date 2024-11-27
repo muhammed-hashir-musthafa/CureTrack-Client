@@ -11,8 +11,8 @@ interface appointmentTable {
 
 export default function AppointmentTable({appointments, handleAction}: appointmentTable) {
   return (
-    <div className="bg-gray-800 rounded-md overflow-hidden">
-      <table className="w-full">
+    <div className="bg-gray-800 rounded-md">
+      <table className="w-full ">
         <thead className="bg-gray-700">
           <tr>
             <th className="py-3 px-4 text-left">Patient</th>
