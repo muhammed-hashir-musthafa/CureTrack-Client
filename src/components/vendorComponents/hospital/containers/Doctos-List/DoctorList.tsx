@@ -1,7 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FC } from "react";
 import { useRouter } from "next/navigation";
-import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
 import TableData from "@/components/baseComponents/ui/Table/TableData";
 import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
@@ -67,16 +66,6 @@ const DoctorsList: React.FC<NavbarProps> = ({
     setSearchTerm(event.target.value);
   };
 
-  const toggleDoctorStatus = (doctorId: string) => {
-    setDoctors((prevDoctors) =>
-      prevDoctors.map((doctor) =>
-        doctor._id === doctorId
-          ? { ...doctor, IsActive: !doctor.IsActive }
-          : doctor
-      )
-    );
-  };
-
   const navigateToDoctorDetails = (doctorId: string) => {
     router.push(`/hospital/doctors/${doctorId}`);
   };
@@ -93,21 +82,10 @@ const DoctorsList: React.FC<NavbarProps> = ({
 
   const [selectedSpecialization, setSelectedSpecialization] =
     useState<string>("All");
-  const [filterStatus, setFilterStatus] = useState<string>("All");
 
   const specializations = Array.from(
     new Set(dummyDoctorsData.flatMap((doctor) => doctor.Specialization))
   );
-
-  const handleSpecializationChange = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedSpecialization(event.target.value);
-  };
-
-  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFilterStatus(event.target.value);
-  };
 
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
@@ -118,30 +96,15 @@ const DoctorsList: React.FC<NavbarProps> = ({
       selectedSpecialization === "All" ||
       doctor.Specialization.includes(selectedSpecialization);
 
-    const matchesStatus =
-      filterStatus === "All" ||
-      (filterStatus === "Active" && doctor.IsActive) ||
-      (filterStatus === "Inactive" && !doctor.IsActive);
-
-    return matchesSearch && matchesSpecialization && matchesStatus;
+    return matchesSearch && matchesSpecialization;
   });
 
   const confirmToggleStatus = () => {
     if (selectedDoctor) {
-      setDoctors((prevDoctors) =>
-        prevDoctors.map((doctor) =>
-          doctor._id === selectedDoctor._id
-            ? { ...doctor, IsActive: !doctor.IsActive }
-            : doctor
-        )
-      );
+      console.log("object", selectedDoctor);
       setShowModal(false);
       setSelectedDoctor(null);
     }
-  };
-
-  const handleView = () => {
-    console.log("object");
   };
 
   return (
@@ -170,13 +133,6 @@ const DoctorsList: React.FC<NavbarProps> = ({
               onChange={(option) => setSelectedSpecialization(option.value)}
             />
           </div>
-          <div className="w-full max-w-xs mx-auto">
-            <Dropdown
-              value={filterStatus}
-              options={["All", "Active", "Inactive"]}
-              onChange={(option) => setFilterStatus(option.value)}
-            />
-          </div>
         </div>
       </div>
 
@@ -188,7 +144,6 @@ const DoctorsList: React.FC<NavbarProps> = ({
               <TableHeader label="Email" />
               <TableHeader label="Phone" />
               <TableHeader label="Specialization" />
-              <TableHeader label="Status" />
               <TableHeader label="Actions" />
               <TableHeader label="Details" />
             </tr>
@@ -214,52 +169,21 @@ const DoctorsList: React.FC<NavbarProps> = ({
                 <TableData>{doctor.Email}</TableData>
                 <TableData>{doctor.PhoneNumber}</TableData>
                 <TableData>{doctor.Specialization.join(", ")}</TableData>
-                <TableData>
-                  <div
-                    className={`flex gap-1 items-center self-stretch py-0.5 pr-2 pl-1.5 my-auto rounded-2xl ${
-                      doctor.IsActive
-                        ? "bg-emerald-950 text-emerald-500"
-                        : "bg-red-950 text-red-500"
-                    }`}
-                  >
-                    {doctor.IsActive ? (
-                      <FiUserCheck className="w-4 h-4" />
-                    ) : (
-                      <FiUserX className="w-4 h-4" />
-                    )}
-                    <div className="self-stretch my-auto text-xs font-semibold">
-                      {doctor.IsActive ? "Active" : "Inactive"}
-                    </div>
-                  </div>
-                </TableData>
-                <TableData className="text-center">
-                  <button
-                    onClick={() => openModal(doctor)}
-                    className={`text-sm font-semibold rounded-lg px-4 py-2 transition-colors duration-200 ${
-                      doctor.IsActive
-                        ? "bg-green-500 text-white hover:bg-green-600"
-                        : "bg-red-500 text-white hover:bg-red-600"
-                    }`}
-                  >
-                    {doctor.IsActive ? (
-                      <>
-                        <FiUserX className="inline-block mr-1" />
-                        Block
-                      </>
-                    ) : (
-                      <>
-                        <FiUserCheck className="inline-block mr-1" />
-                        Unblock
-                      </>
-                    )}
-                  </button>
-                </TableData>
+
                 <TableData className="text-center">
                   <Button
                     label="View"
                     className="text-emerald-500 font-semibold"
                     onClick={() => navigateToDoctorDetails(doctor._id)}
                   />
+                </TableData>
+                <TableData className="text-center">
+                  <button
+                    onClick={() => openModal(doctor)}
+                    className={`text-sm font-semibold rounded-lg px-4 py-2 transition-colors duration-200  bg-red-500 text-white hover:bg-red-600 `}
+                  >
+                    Delete
+                  </button>
                 </TableData>
               </tr>
             ))}
@@ -270,9 +194,8 @@ const DoctorsList: React.FC<NavbarProps> = ({
         isOpen={showModal}
         onClose={closeModal}
         onConfirm={confirmToggleStatus}
-        message={`Are you sure you want to ${
-          selectedDoctor?.IsActive ? "block" : "unblock"
-        } ${selectedDoctor?.FullName}?`}
+        message={`Are you sure  want to delete
+        ${selectedDoctor?.FullName}?`}
         confirmText={"Sure"}
       />
     </div>
