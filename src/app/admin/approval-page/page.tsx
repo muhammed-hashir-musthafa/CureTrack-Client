@@ -1,5 +1,5 @@
-import RequestCard from '../../../components/adminComponents/approval-page/RequestCard';
 import { Fragment } from 'react';
+import RequestCard from '@/components/adminComponents/containers/approval-page/RequestCard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

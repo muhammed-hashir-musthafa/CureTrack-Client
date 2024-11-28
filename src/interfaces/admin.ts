@@ -8,7 +8,7 @@ export interface LinkItem {
 }
 
 export interface SidebarProps {
-  role: "admin" | "vendor" | "user";
+  role: "admin" | "user" | "hospital" | "lab" | "pharmacy" | "doctor";
   onLinkClick: () => void;
 }
 
@@ -32,4 +32,22 @@ export interface Vendors {
     bgColor: string;
     icon: string | ReactNode;
   };
+}
+export interface SignUpFormValues {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginFormValues {
+  email: string;
+  password: string;
+  role: "user" | "doctor" | "vendor" | "admin" | "";
+}
+
+export interface OtpValue {
+  otp: string;
+  email: string;
 }

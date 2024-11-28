@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+import ReactQueryProvider from "./_app";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Cure Track",
@@ -13,7 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>
+          {children}
+          <Toaster />
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

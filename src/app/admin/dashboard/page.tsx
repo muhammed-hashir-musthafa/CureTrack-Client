@@ -1,5 +1,5 @@
+import Dashboard from "@/components/adminComponents/containers/Dashboard/Dashboard";
 import React from "react";
-import Dashboard from "@/components/AdminComponents/containers/Dashboard/Dashboard";
 
 const page = () => {
   return (
@@ -7,5 +7,5 @@ const page = () => {
       <Dashboard />
     </div>
   );
-  }
+};
 export default page;

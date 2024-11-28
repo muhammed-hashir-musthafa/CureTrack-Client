@@ -1,8 +1,8 @@
 'use client'
 
-import SearchBar from "@/components/doctorComponents/appointments/SearchBar";
-import FilterDropdown from "@/components/doctorComponents/appointments/FilterDropdown";
-import AppointmentTable from "@/components/doctorComponents/appointments/AppointmentTable";
+import SearchBar from "@/components/doctorComponents/containers/appointments/SearchBar";
+import FilterDropdown from "@/components/doctorComponents/containers/appointments/FilterDropdown";
+import AppointmentTable from "@/components/doctorComponents/containers/appointments/AppointmentTable";
 import useAppointmentStore from "@/hooks/useDoctor/store/useAppointmentStore";
 import useAppointments from "@/hooks/useDoctor/useAppointments";
 import { useEffect } from "react";
@@ -43,7 +43,7 @@ export default function Appointments() {
   }
 
   return (
-    <div className="p-6 bg-gray-900 flex flex-col h-screen w-full text-white">
+    <div className="p-6 bg-gray-900 flex flex-col h-full w-full text-white">
       <h1 className="text-2xl font-bold mb-6 text-gray-200">
         Start your day by managing new appointments
       </h1>

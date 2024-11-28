@@ -1,9 +1,12 @@
-import React from 'react'
+ import UsersList from "@/components/adminComponents/containers/Users-List/UsersList";
+import React from "react";
 
-const page = () => {
+const UserListPage = () => {
   return (
-    <div>All Users</div>
-  )
-}
+    <>
+      <UsersList />
+    </>
+  );
+};
 
-export default page
+export default UserListPage;
