@@ -1,6 +1,6 @@
 // components/AppointmentTable.tsx
 
-import AppointmentRow from "./AppointmentRow";
+import AppointmentRow from "../AppointmentRow/AppointmentRow";
 
 interface appointment  { _id: string; name: string; appointmentDate:string; status: string; method: string }
 interface appointmentTable {

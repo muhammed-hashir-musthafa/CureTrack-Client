@@ -1,6 +1,6 @@
 // components/AppointmentRow.tsx
 'use client'
-import StatusBadge from "./StatusBadge";
+import StatusBadge from "../StatusBadge/StatusBadge";
 import { useState } from "react";
 
 interface AppointmentRowProps {
