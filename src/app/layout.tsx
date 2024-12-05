@@ -15,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning={true}>
         <ReactQueryProvider>
-          {children}
+          <main>{children}</main>
           <Toaster />
         </ReactQueryProvider>
       </body>

@@ -1,4 +1,4 @@
-import RoleSidebar from "@/components/BaseComponents/ui/RoleSidebar/RoleSidebar";
+ import RoleSidebar from "@/components/baseComponents/ui/RoleSidebar/RoleSidebar";
 import React from "react";
 
 

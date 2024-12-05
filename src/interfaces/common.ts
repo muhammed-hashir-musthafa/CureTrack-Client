@@ -42,6 +42,8 @@ export interface NavbarProps {
   profileName?: string;
   showSearch?: boolean;
   className?: string;
+  onNavigateToProfile?: () => void;
+  onLogout?: () => void;
 }
 
 export interface FileInputProps {

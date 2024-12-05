@@ -92,6 +92,7 @@ const OtpPageClient: React.FC = () => {
         const response = await otpVerification(otpData);
         const { role } = response;
         console.log(role);
+        console.log(role.vendorRole);
         console.log("Submitting values:", email);
         toast.success("OTP verified successfully.");
 
@@ -99,11 +100,11 @@ const OtpPageClient: React.FC = () => {
           router.push("/admin");
         } else if (role === "doctor") {
           router.push("/doctor");
-        } else if (role === "hospital") {
+        } else if (role.vendorRole === "hospital") {
           router.push("/hospital");
-        } else if (role === "lab") {
+        } else if (role.vendorRole === "lab") {
           router.push("/lab");
-        } else if (role === "pharmacy") {
+        } else if (role.vendorRole === "pharmacy") {
           router.push("/pharmacy");
         } else if (role === "user") {
           router.push("/");
@@ -123,7 +124,7 @@ const OtpPageClient: React.FC = () => {
             toast.error("No pending admin found");
           } else {
             toast.error("Server error: Please try again later.");
-            router.back();
+            // router.back();
           }
         } else {
           toast.error("An unexpected error occurred. Please try again.");

@@ -1,8 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaAmbulance, FaLungs, FaProcedures, FaTint, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import axios from 'axios';
+import {
+  FaAmbulance,
+  FaLungs,
+  FaProcedures,
+  FaTint,
+  FaEdit,
+  FaPlus,
+  FaTrash,
+} from "react-icons/fa";
+// import axios from "axios";
 
 interface Facility {
   id: number;
@@ -30,10 +38,10 @@ const FacilitiesAvailable = () => {
     // Fetch data from API when the component mounts
     const fetchData = async () => {
       try {
-        const facilitiesResponse = await axios.get('/api/facilities');  // Replace with your API endpoint
-        const ambulancesResponse = await axios.get('/api/ambulances'); // Replace with your API endpoint
-        setFacilities(facilitiesResponse.data);
-        setAmbulances(ambulancesResponse.data);
+        // const facilitiesResponse = await axios.get("/api/facilities"); // Replace with your API endpoint
+        // const ambulancesResponse = await axios.get("/api/ambulances"); // Replace with your API endpoint
+        // setFacilities(facilitiesResponse.data);
+        // setAmbulances(ambulancesResponse.data);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -44,7 +52,7 @@ const FacilitiesAvailable = () => {
   const handleFacilityUpdate = async (id: number, value: number | string) => {
     try {
       // Update the facility on the backend
-      await axios.put(`/api/facilities/${id}`, { value });
+      // await axios.put(`/api/facilities/${id}`, { value });
       setFacilities(
         facilities.map((facility) =>
           facility.id === id ? { ...facility, value } : facility
@@ -61,8 +69,7 @@ const FacilitiesAvailable = () => {
     value: string
   ) => {
     try {
-      // Update the ambulance on the backend
-      await axios.put(`/api/ambulances/${id}`, { [field]: value });
+      // await axios.put(`/api/ambulances/${id}`, { [field]: value });
       setAmbulances(
         ambulances.map((ambulance) =>
           ambulance.id === id ? { ...ambulance, [field]: value } : ambulance
@@ -86,9 +93,9 @@ const FacilitiesAvailable = () => {
         driverName: "",
         contact: "",
       };
-      const response = await axios.post('/api/ambulances', newAmbulance); // Replace with your API endpoint
-      setAmbulances((prev) => [...prev, response.data]);
-      setEditMode((prev) => ({ ...prev, [response.data.id]: true }));
+      // const response = await axios.post("/api/ambulances", newAmbulance); // Replace with your API endpoint
+      // setAmbulances((prev) => [...prev, response.data]);
+      // setEditMode((prev) => ({ ...prev, [response.data.id]: true }));
     } catch (error) {
       console.error("Error adding new ambulance: ", error);
     }
@@ -104,10 +111,10 @@ const FacilitiesAvailable = () => {
         editable: true,
       };
       try {
-        const response = await axios.post('/api/facilities', newFacility); // Replace with your API endpoint
-        setFacilities((prev) => [...prev, response.data]);
-        setNewFacilityName(""); // Reset input
-        setEditMode((prev) => ({ ...prev, [response.data.id]: true }));
+        // const response = await axios.post("/api/facilities", newFacility); // Replace with your API endpoint
+        // setFacilities((prev) => [...prev, response.data]);
+        // setNewFacilityName(""); // Reset input
+        // setEditMode((prev) => ({ ...prev, [response.data.id]: true }));
       } catch (error) {
         console.error("Error adding new facility: ", error);
       }
@@ -116,7 +123,7 @@ const FacilitiesAvailable = () => {
 
   const deleteFacility = async (id: number) => {
     try {
-      await axios.delete(`/api/facilities/${id}`); // Replace with your API endpoint
+      // await axios.delete(`/api/facilities/${id}`); // Replace with your API endpoint
       setFacilities((prev) => prev.filter((facility) => facility.id !== id));
       setEditMode((prev) => {
         const { [id]: _, ...rest } = prev;
@@ -129,7 +136,7 @@ const FacilitiesAvailable = () => {
 
   const deleteAmbulance = async (id: number) => {
     try {
-      await axios.delete(`/api/ambulances/${id}`); // Replace with your API endpoint
+      // await axios.delete(`/api/ambulances/${id}`); // Replace with your API endpoint
       setAmbulances((prev) => prev.filter((ambulance) => ambulance.id !== id));
       setEditMode((prev) => {
         const { [id]: _, ...rest } = prev;
@@ -151,7 +158,10 @@ const FacilitiesAvailable = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
         {facilities.map((facility) => (
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md" key={facility.id}>
+          <div
+            className="bg-gray-800 p-6 rounded-lg shadow-md"
+            key={facility.id}
+          >
             <div className="flex items-center space-x-4">
               {facility.name === "Blood Units" && (
                 <FaTint className="text-4xl text-red-500" />

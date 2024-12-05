@@ -58,7 +58,6 @@ const SignupForm: React.FC = () => {
   ) => {
     setSubmitting(true);
     try {
-      console.log(values);
       await signupVendor(values);
       console.log("Submitting values:", values);
       resetForm();
