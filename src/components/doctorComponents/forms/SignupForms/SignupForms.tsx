@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { Formik, Form } from "formik";
-import InputField from "@/components/baseComponents/ui/InputFeild/InputFeild";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import doctorValidationSchema from "../schemas/doctorValidationSchema";
 import useDoctorSignup from "@/hooks/useAuth/useDoctorAuth";
 import { useRouter } from "next/navigation";

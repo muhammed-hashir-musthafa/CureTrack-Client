@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
-import InputField from "@/components/baseComponents/ui/InputFeild/InputFeild";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
 import api from "@/lib/axiosIntercepter";
 import { VendorProfileForm } from "@/interfaces/vendor";

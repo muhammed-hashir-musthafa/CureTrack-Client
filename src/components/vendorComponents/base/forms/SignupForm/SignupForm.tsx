@@ -5,7 +5,7 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import InputField from "@/components/baseComponents/ui/InputFeild/InputFeild";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import DropdownField from "@/components/baseComponents/ui/DropdownField/DropdownField";
 import Link from "next/link";
 import { signupVendor } from "@/api/authApi/authApi";

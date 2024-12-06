@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import InputField from "@/components/baseComponents/ui/InputFeild/InputFeild";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
 import api from "@/lib/axiosIntercepter";
 

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { FaEdit } from "react-icons/fa";
-import InputField from "@/components/baseComponents/ui/InputFeild/InputFeild";
+import InputField from "@/components/baseComponents/ui/InputField/InputField";
 import FileInput from "@/components/baseComponents/ui/FileUpload/FileUpload";
 import ConsentCheckbox from "@/components/baseComponents/ui/ConsentCheckbox/ConsentCheckbox";
 import SingleDatePicker from "@/components/baseComponents/ui/SingleDatePicker/SingleDatePicker";

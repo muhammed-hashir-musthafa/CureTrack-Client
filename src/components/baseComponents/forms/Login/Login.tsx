@@ -8,7 +8,7 @@ import { LoginFormValues } from "@/interfaces/admin";
 import { login } from "@/api/authApi/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import InputField from "../../ui/InputFeild/InputFeild";
+import InputField from "../../ui/InputField/InputField";
 import Link from "next/link";
 import RadioButton from "../../ui/RadioButton/RadioButton";
 
