@@ -1,14 +1,8 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import React from "react";
-import {
-  FiAward,
-  FiCalendar,
-  FiFileText,
-  FiMail,
-  FiPhone,
-} from "react-icons/fi";
+import React, { useState } from "react";
+import { FiFileText, FiMail, FiPhone } from "react-icons/fi";
 
 const doctors = [
   {
@@ -60,7 +54,7 @@ const doctors = [
   },
 ];
 
-const DoctorDetails: React.FC = () => {
+const ScheduleAppointment: React.FC = () => {
   const router = useRouter();
   const params = useParams();
   const doctorId = params?.doctorId as string;
@@ -69,6 +63,23 @@ const DoctorDetails: React.FC = () => {
   if (!doctor) {
     return <p>Doctor not found.</p>;
   }
+
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
+  const slots = [
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+  ];
+
+  const handleSlotClick = (slot: string) => {
+    setSelectedSlot(slot);
+  };
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-black via-neutral-950 to-neutral-900 text-white p-6 sm:p-12">
@@ -110,17 +121,10 @@ const DoctorDetails: React.FC = () => {
                     <FiMail className="text-emerald-400" />
                     Email ID: {doctor.doctor.email}
                   </p>
-                  <p className="flex items-center gap-3">
-                    <FiAward className="text-emerald-400" />
-                    Experience: {doctor.doctor.yearsOfExperience} years
-                  </p>
+
                   <p className="flex items-center gap-3">
                     <FiFileText className="text-emerald-400" />
                     IMA ID: {doctor.doctor.IMAId}
-                  </p>
-                  <p className="flex items-center gap-3">
-                    <FiCalendar className="text-emerald-400" />
-                    Date of Joining: {doctor.doctor.dateOfjoining}
                   </p>
                 </div>
               </div>
@@ -141,29 +145,52 @@ const DoctorDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Education */}
           <div className="bg-neutral-900 p-8 rounded-xl shadow-md hover:shadow-2xl transition duration-300 relative border border-gradient-to-tr from-emerald-400 to-cyan-500">
-            <h2 className="text-xl font-bold text-white mb-4">Education</h2>
-            <ul className="list-none text-neutral-300 space-y-3">
-              <li>
-                <span className="font-semibold text-emerald-400">
-                  Qualification:
-                </span>{" "}
-                {doctor.doctor.qualification.join(", ")}
-              </li>
-              <li>
-                <span className="font-semibold text-emerald-400">
-                  Medical Registration Number:
-                </span>{" "}
-                {doctor.doctor.medicalRegistrationNumber}
-              </li>
-              <li>
-                <span className="font-semibold text-emerald-400">
-                  University:
-                </span>{" "}
-                {doctor.doctor.medicalUniversity}
-              </li>
-            </ul>
+            <h2 className="text-xl font-bold text-white mb-4">
+              Schedule a Slot
+            </h2>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                {slots.map((slot, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSlotClick(slot)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition ${
+                      selectedSlot === slot
+                        ? "bg-cyan-500 text-white"
+                        : "bg-emerald-500 text-emerald-50 hover:bg-emerald-400"
+                    }`}
+                  >
+                    {slot}
+                  </button>
+                ))}
+              </div>
+
+              <div>
+                <p className="text-neutral-300 text-sm">
+                  <span className="font-semibold text-emerald-400">
+                    Selected Slot:
+                  </span>{" "}
+                  <span className="text-neutral-50">
+                    {selectedSlot || "None"}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <button
+                disabled={!selectedSlot}
+                className={`w-full py-3 rounded-lg font-bold transition ${
+                  selectedSlot
+                    ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                    : "bg-neutral-800 text-neutral-500 cursor-not-allowed"
+                }`}
+              >
+                Book Appointment
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -171,4 +198,4 @@ const DoctorDetails: React.FC = () => {
   );
 };
 
-export default DoctorDetails;
+export default ScheduleAppointment;

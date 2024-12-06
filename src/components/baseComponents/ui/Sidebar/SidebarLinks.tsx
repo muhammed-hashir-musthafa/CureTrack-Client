@@ -45,7 +45,7 @@ export const linksByRole: Record<string, LinkItem[]> = {
     },
     { label: "Doctors", link: "/hospital/doctors", icon: <MdMedicalServices /> },
     { label: "Lab", link: "/hospital/lab", icon: <HiOutlineBeaker /> },
-    { label: "ICU/Facilities", link: "/hospital/facilities", icon: <FiFileText /> },
+    { label: "Facilities", link: "/hospital/facilities", icon: <FiFileText /> },
     { label: "Messages", link: "/hospital/messages", icon: <HiOutlineChat /> },
   ],
   pharmacy: [

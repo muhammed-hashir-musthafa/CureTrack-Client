@@ -27,3 +27,10 @@ Remove-Item -Recurse -Force .git\rebase-merge
 
 
 storybook
+
+
+
+ambulance
+blood 
+venditalators
+icu 
