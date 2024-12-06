@@ -4,6 +4,7 @@ import {
   SignUpFormValues,
 } from "@/interfaces/admin";
 import { LoginResponse } from "@/interfaces/common";
+import { UserSignUpFormValues } from "@/interfaces/user";
 import { vendorSignupFormValues } from "@/interfaces/vendor";
 import api from "@/lib/axiosIntercepter";
 import { AxiosResponse } from "axios";
@@ -33,4 +34,16 @@ export const signupVendor = async (
 ): Promise<AxiosResponse<any>> => {
   const response = await api.post("/vendor/signup", userData);
   return response.data;
+};
+export const signupUser = async (
+  userData: UserSignUpFormValues
+): Promise<any> => {
+  try {
+    const response = await api.post("/user/signup", userData);
+    console.log(response)
+    return response;
+  } catch (error) {
+    return error
+  }
+  
 };
