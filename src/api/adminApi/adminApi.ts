@@ -1,18 +1,8 @@
 import axiosInstance from "@/lib/axiosInstance";
 
 //admin-sdie-vendors
-export const getVendorsApi = async (page: number, limit: number) => {
-  const response = await axiosInstance.get(`/admin/vendors?page=${page}&limit=${limit}`);
-  return response.data;
-};
-
 export const toggleVendorStatusApi = async (doctorId: string, isActive: boolean) => {
   const response = await axiosInstance.put(`/admin/vendor/${doctorId}`, { isActive: !isActive });
-  return response.data;
-};
-
-export const getvendorByIdApi = async (doctorId: string) => {
-  const response = await axiosInstance.get(`/api/vendor/${doctorId}`);
   return response.data;
 };
 
