@@ -5,7 +5,7 @@ dotenv.config();
 
 const baseUrl =
   // process.env.BASE_URL || "https://cure-track-client.vercel.app/api";
-  process.env.BASE_URL || "http://localhost:5000/api";
+  process.env.BASE_URL || "http://localhost:5001/api";
 
 const api = axios.create({
   baseURL: baseUrl,

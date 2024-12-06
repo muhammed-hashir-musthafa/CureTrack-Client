@@ -1,4 +1,4 @@
-import Appointments from "@/app/doctor/appointments-page/page";
+import Appointments from "@/app/doctor/appointments/page";
 import { create } from "zustand";
 
 interface Appointment {

@@ -1,4 +1,4 @@
-import Appointments from "@/components/doctorComponents/containers/appointments/Appointments";
+import Appointments from "@/components/doctorComponents/containers/Appointments/Appointments";
 import React from "react";
  
 const DashboardPage = () => {

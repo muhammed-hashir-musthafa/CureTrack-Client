@@ -25,7 +25,7 @@ export default function Appointments() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+      <div className="flex justify-center items-center h-full w-full bg-gray-900 text-white">
         <p className="text-lg font-semibold">Loading appointments...</p>
       </div>
     );
@@ -33,7 +33,7 @@ export default function Appointments() {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+      <div className="flex justify-center items-center h-full w-full bg-gray-900 text-white">
         <p className="text-lg font-semibold">
           Error loading appointments. Please try again later.
         </p>

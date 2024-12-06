@@ -1,5 +1,5 @@
 import React from 'react';
-import ViewButton from './ViewButton';
+import ViewButton from '../ViewButton/ViewButton';
 import Image from 'next/image';
 interface RequestCardProps {
   name: string;
