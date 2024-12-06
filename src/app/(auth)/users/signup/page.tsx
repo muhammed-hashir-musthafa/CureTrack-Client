@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import signupBg from "../../../../../public/images/signupBg.png";
-import BaseLogo from "@/components/baseComponents/ui/baseLogo/baseLogo";
+import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
 import SignUpForm from "@/components/userComponents/forms/SignUpForm/SingUpForm1";
 
 

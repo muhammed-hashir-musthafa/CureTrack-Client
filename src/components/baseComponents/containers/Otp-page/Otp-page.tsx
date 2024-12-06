@@ -1,5 +1,4 @@
 "use client";
-
 import { otpVerification } from "@/api/authApi/authApi";
 import { OtpValue } from "@/interfaces/admin";
 import React, { useState, useRef, useEffect } from "react";

@@ -70,3 +70,13 @@ export interface RadioButtonProps {
   onChange: (value: string) => void;
   disabled?: boolean;
 }
+
+interface Vendor {
+  id: string;
+  name: string;
+}
+
+export interface VendorsResponse {
+  vendors: Vendor[];
+  total: number;
+}

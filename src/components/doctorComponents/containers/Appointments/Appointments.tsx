@@ -1,5 +1,4 @@
 'use client'
-
 import FilterDropdown from "@/components/baseComponents/ui/FilterDropDown/FilterDropdown";
 import AppointmentTable from "@/components/baseComponents/ui/AppointmentTable/AppointmentTable";
 import useAppointmentStore from "@/hooks/useDoctor/store/useAppointmentStore";

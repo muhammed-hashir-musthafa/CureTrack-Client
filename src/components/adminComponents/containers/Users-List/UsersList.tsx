@@ -1,6 +1,7 @@
 "use client";
 import { useState, ChangeEvent, FC } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
+import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
 import TableData from "@/components/baseComponents/ui/Table/TableData";
 import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
@@ -50,11 +51,12 @@ const usersData: User[] = [
   },
 ];
 
-const   UsersList: FC = () => {
+const UsersList: FC = () => {
   const [users, setUsers] = useState<User[]>(usersData);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [filterStatus, setFilterStatus] = useState("All");
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -92,10 +94,23 @@ const   UsersList: FC = () => {
   return (
     <div className="min-h-screen bg-black p-4 sm:p-8 w-full">
       <h1 className="text-3xl font-bold mb-8 text-center text-green-700 tracking-wide">
-        User Management
+        Users Management
       </h1>
 
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
+      <div className="flex justify-between items-center mb-6 gap-4">
+        {/* Search Bar on Left */}
+        <div className="flex-grow sm:flex-grow-0">
+          <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} placeholder={"Search by name or email..."} />
+        </div>
+
+        <div className=" ml-auto w-full  max-w-xs">
+          <Dropdown
+            value={filterStatus}
+            options={["All", "Active", "Inactive"]}
+            onChange={(option) => setFilterStatus(option.value)}
+          />
+        </div>
+      </div>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-neutral-900 text-sm sm:text-base">
