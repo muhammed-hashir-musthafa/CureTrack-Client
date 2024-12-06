@@ -1,9 +1,8 @@
-import React from 'react'
+import DoctorDetails from "@/components/vendorComponents/hospital/containers/DoctorDetails/DoctorDetails";
+import React from "react";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+const DoctorDetailsPage = () => {
+  return <DoctorDetails />;
+};
 
-export default page
+export default DoctorDetailsPage;
