@@ -58,15 +58,15 @@ const ProfilePage: React.FC = () => {
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
-    qualification: Yup.string(),
-    primarySpecialization: Yup.string(),
-    medicalRegistrationNumber: Yup.string(),
+    qualification: Yup.string().required("Qualification is required"),
+    primarySpecialization: Yup.string().required("Primary Specialization is required"),
+    medicalRegistrationNumber: Yup.string().required("Medical Registration Number is required"),
     IMAId: Yup.string().required("IMA Id is required"),
-    medicalUniversity: Yup.string(),
-    yearsOfExperience: Yup.number(),
-    hospitalName: Yup.string(),
-    hospitalAddress: Yup.string(),
-    dateOfBirth: Yup.date(),
+    medicalUniversity: Yup.string().required("Medical University is required"),
+    yearsOfExperience: Yup.number().required("Years Of Experience is required"),
+    hospitalName: Yup.string().required("Hospital Name is required"),
+    hospitalAddress: Yup.string().required("Hospital Address is required"),
+    dateOfBirth: Yup.date().required("Date Of Birth is required"),
     consultationFees: Yup.number().optional(),
     document: Yup.mixed().required("Upload Document is required"),
     medicalRegistrationCertificate: Yup.mixed().required(

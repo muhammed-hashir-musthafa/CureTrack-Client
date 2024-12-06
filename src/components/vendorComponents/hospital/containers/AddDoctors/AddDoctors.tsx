@@ -1,17 +1,11 @@
 "use client";
-import { useState, ChangeEvent, FC } from "react";
+import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { FiUserCheck, FiUserX, FiEye } from "react-icons/fi";
 import TableData from "@/components/baseComponents/ui/Table/TableData";
 import TableHeader from "@/components/baseComponents/ui/Table/TableHeader";
 import SearchBar from "@/components/baseComponents/ui/SearchBar/SearchBar";
 import Dropdown from "@/components/baseComponents/ui/Drop-Down/DropDown";
 import { IDoctors } from "@/interfaces/doctor";
-import ConfirmationModal from "@/components/baseComponents/ui/Modals/ConfirmationModal";
-import StatCard from "@/components/baseComponents/ui/StatCard/StatCard";
-import mge from "../../../../../../public/images/Logo.jpg";
-import { MdStore } from "react-icons/md";
-import Button from "@/components/adminComponents/ui/Buttons/ViewButton";
 import { FaPlus } from "react-icons/fa";
 import AddNewButton from "@/components/baseComponents/ui/AddNewButton/AddNewButton";
 import Image from "next/image";
@@ -88,12 +82,7 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
       selectedSpecialization === "All" ||
       doctor.Specialization.includes(selectedSpecialization);
 
-    const matchesStatus =
-      filterStatus === "All" ||
-      (filterStatus === "Active" && doctor.IsActive) ||
-      (filterStatus === "Inactive" && !doctor.IsActive);
-
-    return matchesSearch && matchesSpecialization && matchesStatus;
+    return matchesSearch && matchesSpecialization;
   });
 
   const handleAddDoctor = () => {

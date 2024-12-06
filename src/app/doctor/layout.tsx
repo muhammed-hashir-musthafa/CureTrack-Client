@@ -15,7 +15,11 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ children }) => {
       <RoleSidebar role={role} />
 
       <div className="flex-1 flex flex-col bg-black overflow-y-auto">
-        <BaseNavbar profileName="Doctor Name" profileSrc={profileSrc} />
+        <BaseNavbar
+          role={role}
+          profileName="Doctor Name"
+          profileSrc={profileSrc}
+        />
 
         <div className="text-white flex-1 pt-24">{children}</div>
       </div>

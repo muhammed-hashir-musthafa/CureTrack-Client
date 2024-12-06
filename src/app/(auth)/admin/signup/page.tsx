@@ -4,7 +4,6 @@ import signupBg from "../../../../../public/images/signupBg.png";
 import SignupForm from "@/components/adminComponents/forms/SignupForm/SignupForm";
 import BaseLogo from "@/components/baseComponents/ui/BaseLogo/BaseLogo";
 
-
 const AdminSignupPage = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
