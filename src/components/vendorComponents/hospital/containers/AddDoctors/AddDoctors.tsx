@@ -16,6 +16,7 @@ import { FaPlus } from "react-icons/fa";
 import AddNewButton from "@/components/baseComponents/ui/AddNewButton/AddNewButton";
 import Image from "next/image";
 import { NavbarProps } from "@/interfaces/common";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 
 const dummyDoctorsData = [
   {
@@ -110,6 +111,12 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
       </h1>
 
       <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <button
+          onClick={() => router.back()}
+          className="top-4 left-4 p-1.5 text-white border border-gray-200 bg-opacity-50 rounded-full hover:bg-opacity-75"
+        >
+          <HiOutlineArrowLeft className="w-5 h-5" />
+        </button>
         <div className="flex-grow sm:flex-grow-0">
           <SearchBar searchTerm={searchTerm} onSearchChange={handleSearch} />
         </div>
@@ -163,7 +170,7 @@ const AddDoctorsClient: React.FC<NavbarProps> = ({
 
                 <TableData className="text-center">
                   {doctor.experience}
-                </TableData> 
+                </TableData>
                 <TableData className="text-center">
                   <AddNewButton
                     label="Add"

@@ -3,9 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Sidebar from "@/components/baseComponents/ui/Sidebar/Sidebar";
 
-const RoleSidebar: React.FC<{
-  role: "admin" | "user" | "hospital" | "lab" | "pharmacy" | "doctor";
-}> = ({ role }) => {
+const RoleSidebar: React.FC<{role: "admin" | "hospital" | "lab" | "pharmacy" | "doctor"}> = ({ role }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
