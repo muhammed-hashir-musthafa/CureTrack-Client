@@ -1,10 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import logo from "../../../../../public/logos/Logo-CureTracK.png";
+import { FiBell } from "react-icons/fi";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import { usePathname } from "next/navigation"; // Correct hook for Next.js 15
+import Link from "next/link";
 
 const UserNavbar: React.FC = () => {
+  const currentPath = usePathname(); // Get the current pathname
+
+  const profileSrc =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png";
+  const profileName = "User";
+
   return (
-    <header className="fixed bg-black text-white flex justify-between items-center px-6 py-4 w-full z-50 ">
+    <header className="fixed bg-black text-white flex justify-between items-center px-6 py-4 w-full z-50">
       <div className="flex items-center space-x-3">
         <div className="bg-white rounded-full w-8 h-8 flex justify-center items-center">
           <Image
@@ -17,48 +29,88 @@ const UserNavbar: React.FC = () => {
         <span className="font-semibold text-lg">Cure Track</span>
       </div>
 
-      <nav className="hidden md:flex space-x-6">
-        <a href="#" className="text-green-500 hover:underline">
+      {/* Center the links */}
+      <nav className="hidden md:flex flex-grow justify-center space-x-6">
+        <Link
+          href="/"
+          className={`${
+            currentPath === "/" ? "text-green-500 font-bold" : "hover:text-green-500"
+          } transition`}
+        >
           Home
-        </a>
-        <a href="#" className="hover:text-green-500 transition">
+        </Link>
+        <Link
+          href="/appointments"
+          className={`${
+            currentPath === "/appointments"
+              ? "text-green-500 font-bold"
+              : "hover:text-green-500"
+          } transition`}
+        >
           Appointments
-        </a>
-        <a href="#" className="hover:text-green-500 transition">
+        </Link>
+        <Link
+          href="/hospitals"
+          className={`${
+            currentPath === "/hospitals" ? "text-green-500 font-bold" : "hover:text-green-500"
+          } transition`}
+        >
           Health care
-        </a>
-        <a href="#" className="hover:text-green-500 transition">
+        </Link>
+        <Link
+          href="/medicalHistory"
+          className={`${
+            currentPath === "/medicalHistory"
+              ? "text-green-500 font-bold"
+              : "hover:text-green-500"
+          } transition`}
+        >
           Medical History
-        </a>
-        <a href="#" className="hover:text-green-500 transition">
+        </Link>
+        <Link
+          href="/about"
+          className={`${
+            currentPath === "/about" ? "text-green-500 font-bold" : "hover:text-green-500"
+          } transition`}
+        >
           Contact Us
-        </a>
+        </Link>
       </nav>
 
-      <div className="flex items-center space-x-4">
-        <button className="relative">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6 6 0 10-12 0v3a2.032 2.032 0 01-.595 1.595L4 17h5m6 0a3 3 0 11-6 0h6z"
-            />
-          </svg>
-        </button>
-
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
-            <span className="text-sm font-semibold text-white">AR</span>
+      <div className="flex items-center space-x-4 ml-auto">
+        <FiBell className="text-white text-2xl cursor-pointer" />
+        <span className="text-white">{profileName}</span>
+        <Menu as="div" className="relative">
+          <div>
+            <MenuButton className="flex items-center space-x-2">
+              <Image
+                width={40}
+                height={40}
+                src={profileSrc}
+                alt="Profile"
+                className="h-8 w-8 rounded-full object-cover"
+              />
+            </MenuButton>
           </div>
-          <span className="hidden md:inline text-sm">Alex Lawrence</span>
-        </div>
+          <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white pt-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <MenuItem>
+              <button
+                onClick={() => console.log("Navigate to profile")}
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Your Profile
+              </button>
+            </MenuItem>
+            <MenuItem>
+              <button
+                onClick={() => console.log("Logout")}
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            </MenuItem>
+          </MenuItems>
+        </Menu>
       </div>
     </header>
   );

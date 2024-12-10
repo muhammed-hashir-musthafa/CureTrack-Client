@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import {
   FaFacebookF,
@@ -30,36 +31,36 @@ export const Footer: React.FC = () => {
             </h2>
             <ul className="space-y-2 text-sm">
               <li>
-                <a
-                  href="/appointment"
+                <Link
+                  href="/appointments"
                   className="hover:underline hover:text-emerald-400"
                 >
                   Appointment
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/healthcare"
+                <Link
+                  href="/hospitals"
                   className="hover:underline hover:text-emerald-400"
                 >
                   Healthcare
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/medical-history"
+                <Link
+                  href="/medicalHistory"
                   className="hover:underline hover:text-emerald-400"
                 >
                   Medical History
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <Link
+                  href="/about"
                   className="hover:underline hover:text-emerald-400"
                 >
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

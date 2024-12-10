@@ -12,7 +12,7 @@ const SearchBar: FC<SearchBarProps> = ({
   onSearchChange,
   placeholder,
 }) => (
-  <div className="flex items-center bg-neutral-900 rounded-full shadow-lg px-4 py-2 mb-6 w-full max-w-lg mx-auto">
+  <div className="flex items-center bg-neutral-900 rounded-full shadow-lg px-4 py-2 mb-6 w-full max-w-lg mx-auto border border-gray-800">
     <HiSearch className="text-gray-400 mr-3" size={22} />
     <input
       type="text"

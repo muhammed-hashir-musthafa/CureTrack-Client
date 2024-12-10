@@ -3,7 +3,7 @@ import React from "react";
  
 const Page = () => {
   return (
-    <div className="flex h-full w-full bg-pink-400 text-white">
+    <div className="h-full w-full text-white">
       <MedicalHistory />
     </div>
   );

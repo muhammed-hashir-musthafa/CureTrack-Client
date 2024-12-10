@@ -9,7 +9,7 @@ import {
 import { FaAmbulance, FaLungs, FaUserMd, FaHeartbeat } from "react-icons/fa";
 import { FaTint } from "react-icons/fa";
 import { Bed, AirVent } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const hospitalData = {
   name: "City Care Hospital",
@@ -65,9 +65,10 @@ const hospitalData = {
 
 const HospitalDetailsView: React.FC = () => {
   const router = useRouter();
+  const { id } = useParams();
 
   const handleViewAllDoctors = () => {
-    router.push("doctors");
+    router.push(`/hospitals/${id}/doctors`);
   };
 
   const [showAllDoctors, setShowAllDoctors] = useState(false);

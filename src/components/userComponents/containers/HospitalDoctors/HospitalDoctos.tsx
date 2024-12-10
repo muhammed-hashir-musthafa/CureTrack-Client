@@ -1,8 +1,10 @@
 "use client";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaUserMd } from "react-icons/fa";
 
 interface Doctor {
+  id: string;
   name: string;
   specialization: string;
   consultationFee: number;
@@ -12,6 +14,7 @@ interface Doctor {
 
 const doctorsData: Doctor[] = [
   {
+    id: "1",
     name: "Dr. John Doe",
     specialization: "Cardiologist",
     consultationFee: 500,
@@ -19,6 +22,7 @@ const doctorsData: Doctor[] = [
     profilePic: "https://via.placeholder.com/100",
   },
   {
+    id: "2",
     name: "Dr. Jane Smith",
     specialization: "Neurologist",
     consultationFee: 600,
@@ -26,6 +30,7 @@ const doctorsData: Doctor[] = [
     profilePic: "https://via.placeholder.com/100",
   },
   {
+    id: "3",
     name: "Dr. Michael Clark",
     specialization: "Pediatrician",
     consultationFee: 450,
@@ -33,6 +38,7 @@ const doctorsData: Doctor[] = [
     profilePic: "https://via.placeholder.com/100",
   },
   {
+    id: "4",
     name: "Dr. Emma Brown",
     specialization: "Orthopedic",
     consultationFee: 550,
@@ -42,6 +48,11 @@ const doctorsData: Doctor[] = [
 ];
 
 const HospitalDoctorsList: React.FC = () => {
+  const { id } = useParams();
+  const router = useRouter();
+  const handleRoute = (doctorId: string) => {
+    router.push(`/hospitals/${id}/doctors/${doctorId}`);
+  };
   return (
     <div className="bg-black text-white min-h-screen font-sans">
       {/* Doctors List Banner */}
@@ -86,7 +97,10 @@ const HospitalDoctorsList: React.FC = () => {
                   Fee: ₹{doctor.consultationFee}
                 </p>
 
-                <button className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                <button
+                  onClick={() => handleRoute(doctor.id)}
+                  className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                >
                   Book Appointment
                 </button>
               </div>
