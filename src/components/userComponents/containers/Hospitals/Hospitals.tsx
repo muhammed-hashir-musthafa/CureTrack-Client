@@ -83,7 +83,7 @@ const Hospitals = () => {
   return (
     <div className="min-h-screen bg-black text-gray-200 py-8 px-4">
       {/* Header */}
-      <header className="text-center">
+      <header className="text-center mt-10">
         <h1 className="text-5xl font-extrabold text-green-500 mb-4">
           Explore Our Hospitals
         </h1>

@@ -7,7 +7,7 @@ import { FiFileText, FiMail, FiPhone } from "react-icons/fi";
 const doctors = [
   {
     doctor: {
-      _id: "60b6c0f72f9b4e3a8e9f8cfc",
+      _id: "1",
       fullName: "Dr. John Doe",
       initials: "JD",
       email: "drjohndoe@gmail.com",

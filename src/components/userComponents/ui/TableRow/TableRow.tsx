@@ -27,7 +27,7 @@ const TableRow: React.FC<TableRowProps> = ({ healthIssue, category, doctor, hosp
       </td>
       </td>
       <td className="px-4 py-2">{date}</td>
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 mx-auto">
         <Button label="View More" />
       </td>
     </tr>
