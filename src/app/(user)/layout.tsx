@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import UserNavbar from "@/components/userComponents/containers/UserNavbar/UserNavbar";
+import UserNavbar from "@/components/userComponents/ui/UserNavbar/UserNavbar";
 import { Footer } from "@/components/baseComponents/ui/Footer/Footer";
 
 export const metadata: Metadata = {

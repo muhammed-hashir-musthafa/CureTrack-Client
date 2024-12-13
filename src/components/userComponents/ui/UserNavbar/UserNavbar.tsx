@@ -5,11 +5,12 @@ import React from "react";
 import logo from "../../../../../public/logos/Logo-CureTracK.png";
 import { FiBell } from "react-icons/fi";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
-import { usePathname } from "next/navigation"; // Correct hook for Next.js 15
+import { usePathname, useRouter } from "next/navigation";  
 import Link from "next/link";
 
 const UserNavbar: React.FC = () => {
-  const currentPath = usePathname(); // Get the current pathname
+  const currentPath = usePathname(); 
+  const router = useRouter()
 
   const profileSrc =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png";
@@ -34,7 +35,9 @@ const UserNavbar: React.FC = () => {
         <Link
           href="/"
           className={`${
-            currentPath === "/" ? "text-green-500 font-bold" : "hover:text-green-500"
+            currentPath === "/"
+              ? "text-green-500 font-bold"
+              : "hover:text-green-500"
           } transition`}
         >
           Home
@@ -52,7 +55,9 @@ const UserNavbar: React.FC = () => {
         <Link
           href="/hospitals"
           className={`${
-            currentPath === "/hospitals" ? "text-green-500 font-bold" : "hover:text-green-500"
+            currentPath === "/hospitals"
+              ? "text-green-500 font-bold"
+              : "hover:text-green-500"
           } transition`}
         >
           Health care
@@ -70,7 +75,9 @@ const UserNavbar: React.FC = () => {
         <Link
           href="/about"
           className={`${
-            currentPath === "/about" ? "text-green-500 font-bold" : "hover:text-green-500"
+            currentPath === "/about"
+              ? "text-green-500 font-bold"
+              : "hover:text-green-500"
           } transition`}
         >
           Contact Us
@@ -95,7 +102,10 @@ const UserNavbar: React.FC = () => {
           <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white pt-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
             <MenuItem>
               <button
-                onClick={() => console.log("Navigate to profile")}
+                onClick={() => {
+                  router.push("/profile");
+                  console.log("Navigate to profile");
+                }}
                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Your Profile
